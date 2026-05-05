@@ -938,15 +938,24 @@ function buildRadar(eixoScaled){
 }
 
 async function salvarLead(dados){
-  const SHEETS_URL='https://script.google.com/macros/s/AKfycbzhpkVg7bFrxj8pVqXairrL7siQ5CNJxkLpqPcWPWltbG6wXBbT1G9aSn_-wvFNY0HNFg/exec';
-  if(SHEETS_URL==='https://script.google.com/macros/s/AKfycbzhpkVg7bFrxj8pVqXairrL7siQ5CNJxkLpqPcWPWltbG6wXBbT1G9aSn_-wvFNY0HNFg/exec'){console.log('Lead capturado (Sheets não configurado):',dados);return;}
-  try{await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});
+  // ▼▼▼ COLE AQUI A URL DO SEU APPS SCRIPT (termina em /exec) ▼▼▼
+  const SHEETS_URL='https://script.google.com/macros/s/AKfycbyHWaN1ds2ekbq4lgXAbZ67qT9AygbtPanlgSV5lvF4JfKN-Yr5hH9FX3zIH_1xz32eUQ/exec';
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+  if(!SHEETS_URL){console.log('Lead capturado (configure SHEETS_URL):',dados);return;}
+  try{
+    await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});
+    console.log('✅ Lead enviado ao Google Sheets');
   }catch(e){console.warn('Erro ao salvar lead:',e);}
 }
 
 function agendarConsultoria(){
-  const msg=encodeURIComponent(`Olá! Acabei de fazer o diagnóstico G.E.N.I.X. e gostaria de agendar a consultoria. Meu score foi ${state._score100}/100.`);
-  window.open(`https://wa.me/5535987096476?text=${msg}`,'_blank');
+  // ▼▼▼ COLE AQUI SEU NÚMERO DE WHATSAPP (só números, com DDI) ▼▼▼
+  const SEU_WHATSAPP='5535987096476';
+  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+  const msg=encodeURIComponent(`Olá! Acabei de fazer o diagnóstico G.E.N.I.X. e gostaria de agendar minha consultoria. Minha empresa é ${state.empresa} e meu score foi ${state._score100}/100.`);
+  window.open(`https://wa.me/5535987096476 ?text=${msg}`,'_blank');
 }
 
 function restart(){
