@@ -308,7 +308,7 @@ body::before{
 <div class="screen active" id="screen-intro">
 <div class="wrap">
   <div class="logo-bar">
-    <img src="https://webgenixdigital-cpu.github.io/assessmentgenix/logo.png" alt="GENIX"
+    <img src="logo.png" alt="GENIX"
       onerror="this.style.display='none'">
     <div class="logo-text">
       <div class="logo-brand">G·E·N·I·X</div>
@@ -389,7 +389,7 @@ body::before{
 <div class="screen" id="screen-quiz">
 <div class="wrap">
   <div class="logo-bar" style="margin-bottom:28px">
-    <img src="https://webgenixdigital-cpu.github.io/assessmentgenix/logo.png" alt="GENIX" onerror="this.style.display='none'">
+    <img src="logo.png" alt="GENIX" onerror="this.style.display='none'">
     <div class="logo-text"><div class="logo-brand">G·E·N·I·X</div><div class="logo-sub">Business Growth Assessment®</div></div>
   </div>
   <div class="prog-wrap">
@@ -733,7 +733,7 @@ function buildReport(){
   document.getElementById('report-wrap').innerHTML=`
   <div class="report-cover" style="animation:fadeUp .5s ease both">
     <div class="cover-logo">
-      <img src="https://webgenixdigital-cpu.github.io/assessmentgenix/logo.png" alt="GENIX" style="width:44px;height:44px;object-fit:contain;" onerror="this.style.display='none'">
+      <img src="logo.png" alt="GENIX" style="width:44px;height:44px;object-fit:contain;" onerror="this.style.display='none'">
       <div class="cover-brand">G·E·N·I·X</div>
     </div>
     <div class="cover-line"></div>
@@ -938,9 +938,7 @@ function buildRadar(eixoScaled){
 }
 
 async function salvarLead(dados){
-  // ▼▼▼ COLE AQUI A URL DO SEU APPS SCRIPT (termina em /exec) ▼▼▼
   const SHEETS_URL='https://script.google.com/macros/s/AKfycbyHWaN1ds2ekbq4lgXAbZ67qT9AygbtPanlgSV5lvF4JfKN-Yr5hH9FX3zIH_1xz32eUQ/exec';
-  // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
   if(!SHEETS_URL){console.log('Lead capturado (configure SHEETS_URL):',dados);return;}
   try{
@@ -955,7 +953,7 @@ function agendarConsultoria(){
   // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
   const msg=encodeURIComponent(`Olá! Acabei de fazer o diagnóstico G.E.N.I.X. e gostaria de agendar minha consultoria. Minha empresa é ${state.empresa} e meu score foi ${state._score100}/100.`);
-  window.open(`https://wa.me/5535987096476 ?text=${msg}`,'_blank');
+  window.open(`https://wa.me/${5535987096476}?text=${msg}`,'_blank');
 }
 
 function restart(){
