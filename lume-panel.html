@@ -55,8 +55,8 @@ body::after {
 }
 
 /* SCREENS */
-.screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
-.screen.active { display: block; }
+.screen { display: none !important; position: relative; z-index: 1; min-height: 100vh; }
+.screen.active { display: block !important; }
 
 /* ══════════════════════════════
    LOGIN SCREEN
@@ -529,7 +529,10 @@ body::after {
         </div>
       </div>
       <div class="nav-section">Gestão</div>
-      <button class="nav-item active" onclick="showAdminPage('clientes')" id="anav-clientes">
+      <button class="nav-item active" onclick="showAdminPage('dashboard')" id="anav-dashboard">
+        <span class="nav-icon">🏠</span> Dashboard
+      </button>
+      <button class="nav-item" onclick="showAdminPage('clientes')" id="anav-clientes">
         <span class="nav-icon">👥</span> Clientes Ativos
       </button>
       <button class="nav-item" onclick="showAdminPage('leads')" id="anav-leads">
@@ -555,6 +558,46 @@ body::after {
     </aside>
 
     <main class="main-content">
+
+      <!-- DASHBOARD -->
+      <div id="apage-dashboard" style="display:none" class="fade-in">
+        <div class="page-head page-head-row">
+          <div>
+            <h1>Dashboard LUME</h1>
+            <p id="admin-date-label">Bem-vindo ao painel administrativo</p>
+          </div>
+          <button class="btn-primary" onclick="showAdminPage('novo')">+ Novo Cliente</button>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="stats-grid mb-24">
+          <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="dash-total">0</div><div class="stat-label">Clientes ativos</div></div>
+          <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-val" id="dash-avg-score">0</div><div class="stat-label">Score médio LUME</div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="dash-avg-tasks">0%</div><div class="stat-label">Tarefas concluídas</div></div>
+          <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-val" id="dash-leads">0</div><div class="stat-label">Leads aguardando</div></div>
+        </div>
+
+        <!-- Clients + Score Overview -->
+        <div class="grid-2 mb-24">
+          <div class="card">
+            <div class="card-title">Clientes por Status</div>
+            <div id="dash-status-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Score LUME — Ranking</div>
+            <div id="dash-ranking" style="display:flex;flex-direction:column;gap:12px;margin-top:4px"></div>
+          </div>
+        </div>
+
+        <!-- Recent clients -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div class="card-title" style="margin-bottom:0">Todos os Clientes</div>
+            <button class="btn-secondary" style="padding:7px 16px;font-size:13px" onclick="showAdminPage('clientes')">Ver detalhes →</button>
+          </div>
+          <div id="dash-client-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+      </div>
 
       <!-- LEADS ASSESSMENT -->
       <div id="apage-leads" style="display:none" class="fade-in">
@@ -586,7 +629,7 @@ body::after {
       </div>
 
       <!-- CLIENTES LIST -->
-      <div id="apage-clientes" class="fade-in">
+      <div id="apage-clientes" style="display:none" class="fade-in">
         <div class="page-head page-head-row">
           <div><h1>Clientes Ativos</h1><p>Gerencie e acompanhe cada cliente</p></div>
           <button class="btn-primary" onclick="showAdminPage('novo')">+ Novo Cliente</button>
@@ -1129,7 +1172,85 @@ function showClientPage(page) {
 // ADMIN PANEL
 // ══════════════════════════════════════
 function loadAdminPanel() {
-  showAdminPage('clientes');
+  showAdminPage('dashboard');
+}
+
+function renderAdminDashboard() {
+  var clients = getClients();
+  var leads = getLeads();
+  var today = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var dateEl = document.getElementById('admin-date-label');
+  if(dateEl) dateEl.textContent = today;
+
+  // KPIs
+  var total = clients.length;
+  var avgScore = total ? Math.round(clients.reduce(function(a,c){return a+c.score;},0)/total) : 0;
+  var avgTasks = total ? Math.round(clients.reduce(function(a,c){
+    return a+Math.round((c.checklist.filter(function(t){return t.done;}).length/c.checklist.length)*100);
+  },0)/total) : 0;
+  var pendingLeads = leads.filter(function(l){return l.status==='pending';}).length;
+
+  var el = function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  el('dash-total', total);
+  el('dash-avg-score', avgScore);
+  el('dash-avg-tasks', avgTasks+'%');
+  el('dash-leads', pendingLeads);
+
+  // Status list
+  var statusMap = {active:{label:'Ativo',cor:'var(--success)'},starting:{label:'Iniciando',cor:'var(--lume2)'},review:{label:'Em revisão',cor:'var(--accent2)'}};
+  var statusCount = {active:0,starting:0,review:0};
+  clients.forEach(function(c){if(statusCount[c.status]!==undefined)statusCount[c.status]++;});
+  var statusHtml = Object.keys(statusMap).map(function(k){
+    var pct = total ? Math.round((statusCount[k]/total)*100) : 0;
+    return '<div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">'+
+        '<span style="color:var(--text2)">'+statusMap[k].label+'</span>'+
+        '<span style="font-weight:600;color:'+statusMap[k].cor+'">'+statusCount[k]+' cliente'+(statusCount[k]!==1?'s':'')+'</span>'+
+      '</div>'+
+      '<div style="height:6px;background:rgba(255,255,255,.06);border-radius:100px">'+
+        '<div style="height:100%;width:'+pct+'%;background:'+statusMap[k].cor+';border-radius:100px;transition:width 1s"></div>'+
+      '</div></div>';
+  }).join('');
+  var statusEl = document.getElementById('dash-status-list');
+  if(statusEl) statusEl.innerHTML = statusHtml || '<div class="text-muted">Nenhum cliente ainda.</div>';
+
+  // Ranking
+  var sorted = clients.slice().sort(function(a,b){return b.score-a.score;});
+  var rankingHtml = sorted.slice(0,5).map(function(c,i){
+    var medals = ['🥇','🥈','🥉','4º','5º'];
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--border)">'+
+      '<div style="font-size:16px;width:24px;text-align:center;flex-shrink:0">'+medals[i]+'</div>'+
+      '<div style="flex:1;font-size:14px;color:var(--text2)">'+c.nome.split(' ')[0]+' · '+c.empresa+'</div>'+
+      '<div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:var(--lume2)">'+c.score+'</div>'+
+    '</div>';
+  }).join('');
+  var rankEl = document.getElementById('dash-ranking');
+  if(rankEl) rankEl.innerHTML = rankingHtml || '<div class="text-muted">Nenhum cliente ainda.</div>';
+
+  // Client list compact
+  var gradients = ['linear-gradient(135deg,#1c8fec,#29a3e6)','linear-gradient(135deg,#b512b9,#6c23a9)','linear-gradient(135deg,#6483d3,#1c8fec)','linear-gradient(135deg,#d155b5,#b512b9)'];
+  var statusClasses = {active:'badge-active',starting:'badge-starting',review:'badge-review'};
+  var statusLabels2 = {active:'Ativo',starting:'Iniciando',review:'Em revisão'};
+  var listHtml = clients.map(function(c,i){
+    var tasksPct = Math.round((c.checklist.filter(function(t){return t.done;}).length/c.checklist.length)*100);
+    return '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:all .2s" onclick="openClientModal(\''+c.id+'\')">'+
+      '<div style="width:38px;height:38px;border-radius:10px;background:'+gradients[i%gradients.length]+';display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:#fff;flex-shrink:0">'+c.nome.charAt(0)+'</div>'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="font-size:14px;font-weight:600;color:var(--text)">'+c.nome+' · '+c.empresa+'</div>'+
+        '<div style="display:flex;align-items:center;gap:8px;margin-top:5px">'+
+          '<div style="flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:100px"><div style="height:100%;width:'+tasksPct+'%;background:linear-gradient(90deg,#1c8fec,#b512b9);border-radius:100px"></div></div>'+
+          '<span style="font-size:11px;color:var(--muted)">'+tasksPct+'%</span>'+
+        '</div>'+
+      '</div>'+
+      '<div style="text-align:right;flex-shrink:0">'+
+        '<div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:var(--lume2)">'+c.score+'</div>'+
+        '<div style="font-size:10px;color:var(--muted)">score</div>'+
+      '</div>'+
+      '<span class="client-badge '+statusClasses[c.status]+'">'+statusLabels2[c.status]+'</span>'+
+    '</div>';
+  }).join('');
+  var listEl = document.getElementById('dash-client-list');
+  if(listEl) listEl.innerHTML = listHtml || '<div style="text-align:center;padding:32px;color:var(--muted)">Nenhum cliente cadastrado ainda.<br><button class="btn-primary" style="margin-top:16px" onclick="showAdminPage(\'novo\')">+ Adicionar primeiro cliente</button></div>';
 }
 
 function renderClientList() {
@@ -1714,13 +1835,14 @@ function goToLogin() {
 // Update showAdminPage to include leads
 var _origShowAdminPage = null; // kept for compatibility
 function showAdminPage(page) {
-  var pages = ['clientes','leads','novo','overview'];
+  var pages = ['dashboard','clientes','leads','novo','overview'];
   pages.forEach(function(p){
     var el = document.getElementById('apage-'+p);
     if(el) el.style.display = p===page?'block':'none';
     var nav = document.getElementById('anav-'+p);
     if(nav) nav.classList.toggle('active', p===page);
   });
+  if(page==='dashboard') renderAdminDashboard();
   if(page==='clientes') renderClientList();
   if(page==='leads') renderLeadList();
   if(page==='overview') renderOverview();
