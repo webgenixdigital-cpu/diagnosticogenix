@@ -1132,24 +1132,6 @@ function loadAdminPanel() {
   showAdminPage('clientes');
 }
 
-function showAdminPage(page) {
-  var pages = ['clientes','novo','overview'];
-  pages.forEach(function(p){
-    var el = document.getElementById('apage-'+p);
-    if(el) el.style.display = p===page?'block':'none';
-    var nav = document.getElementById('anav-'+p);
-    if(nav) nav.classList.toggle('active', p===page);
-  });
-
-  if(page==='clientes') renderClientList();
-  if(page==='overview') renderOverview();
-  if(page==='novo' && !editingClientId) {
-    clearClientForm();
-    document.getElementById('form-title').textContent = 'Novo Cliente';
-    document.getElementById('btn-salvar-cliente').textContent = 'Salvar Cliente';
-  }
-}
-
 function renderClientList() {
   var clients = getClients();
   document.getElementById('admin-total').textContent = clients.length;
@@ -1730,7 +1712,7 @@ function goToLogin() {
 }
 
 // Update showAdminPage to include leads
-var _origShowAdminPage = showAdminPage;
+var _origShowAdminPage = null; // kept for compatibility
 function showAdminPage(page) {
   var pages = ['clientes','leads','novo','overview'];
   pages.forEach(function(p){
