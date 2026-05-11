@@ -764,58 +764,71 @@ var ADMIN_CREDENTIALS = { user: 'admin', pass: 'lume2024' };
 var ADMIN_WHATSAPP = '5534999999999';
 // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-var PILARES = ['Gestão','Eficiência Comercial','Digital','Automação','Gestão de Pessoas','Expansão'];
-var PILAR_COLORS = ['#1c8fec','#6e8fff','#4ecdc4','#f857a6','#51cf66','#ff8c00'];
-var PILAR_ICONS = ['📊','📅','🔗','⚙️','💊','🚀'];
+var PILARES = ['Agendamento & Organização','Gestão Financeira','Fidelização & Retenção','Captação & Marketing','Presença Digital','Processos & Automação','Equipe & Profissionalização','Experiência do Cliente','Crescimento & Visão'];
+var PILAR_COLORS = ['#1c8fec','#f857a6','#51cf66','#ff8c00','#6483d3','#4ecdc4','#b512b9','#ffd166','#29a3e6'];
+var PILAR_ICONS = ['📅','💰','💎','📱','🌐','⚙️','👥','⭐','🚀'];
 
 var TOOLS = [
-  {icon:'📅',nome:'Agendamento Digital',status:'pending'},
-  {icon:'👥',nome:'CRM WhatsApp',status:'pending'},
-  {icon:'📲',nome:'Catálogo Interativo',status:'pending'},
-  {icon:'⚙️',nome:'Automações',status:'pending'},
-  {icon:'🔗',nome:'SmallBio',status:'pending'},
-  {icon:'💊',nome:'Telemedicina',status:'pending'},
+  {icon:'📅',nome:'Agendamento Digital 24h',status:'pending'},
+  {icon:'💎',nome:'CRM de Fidelização',status:'pending'},
+  {icon:'🌐',nome:'SmallBio — Página Inteligente',status:'pending'},
+  {icon:'📲',nome:'Catálogo de Serviços Digital',status:'pending'},
+  {icon:'⚙️',nome:'Automações de Relacionamento',status:'pending'},
+  {icon:'⭐',nome:'NPS & Reputação Digital',status:'pending'},
+  {icon:'💰',nome:'Gestão Financeira LUME',status:'pending'},
+  {icon:'👥',nome:'Gestão de Equipe & Comissão',status:'pending'},
+  {icon:'📱',nome:'Estratégia de Captação',status:'pending'},
   {icon:'🧬',nome:'Metodologia LUME',status:'integrated'},
-  {icon:'📊',nome:'Dashboard KPIs',status:'pending'},
 ];
 
 var CHECKLIST_TEMPLATE = [
-  {id:'c1',text:'Diagnóstico completo G.E.N.I.X. realizado',phase:1,done:true},
-  {id:'c2',text:'Apresentação da Metodologia LUME',phase:1,done:true},
-  {id:'c3',text:'Definição dos pilares prioritários',phase:1,done:false},
-  {id:'c4',text:'Configuração do CRM e pipeline de vendas',phase:1,done:false},
-  {id:'c5',text:'Criação da página de links SmallBio',phase:1,done:false},
-  {id:'c6',text:'Implantação do sistema de agendamento digital',phase:2,done:false},
-  {id:'c7',text:'Configuração das automações de boas-vindas',phase:2,done:false},
-  {id:'c8',text:'Ativação do catálogo interativo',phase:2,done:false},
-  {id:'c9',text:'Implantação do plano de saúde / telemedicina',phase:2,done:false},
-  {id:'c10',text:'Treinamento da equipe nas novas ferramentas',phase:2,done:false},
-  {id:'c11',text:'Configuração de automações de reativação',phase:3,done:false},
-  {id:'c12',text:'Revisão de KPIs e ajuste de metas',phase:3,done:false},
-  {id:'c13',text:'Implementação do plano de expansão',phase:3,done:false},
-  {id:'c14',text:'Avaliação de maturidade — Score LUME final',phase:3,done:false},
+  // FASE 1 — DIAGNÓSTICO & ESTRUTURA BASE (0–30 dias)
+  {id:'c1', text:'Diagnóstico G.E.N.I.X. completo realizado e laudo entregue', phase:1, done:true},
+  {id:'c2', text:'Apresentação da Metodologia LUME e alinhamento de expectativas', phase:1, done:true},
+  {id:'c3', text:'Mapeamento dos serviços, preços e margem de lucro por procedimento', phase:1, done:false},
+  {id:'c4', text:'Organização da agenda: migração para sistema de agendamento digital', phase:1, done:false},
+  {id:'c5', text:'Configuração do sistema de confirmação e lembrete automático de atendimentos', phase:1, done:false},
+  {id:'c6', text:'Criação e publicação da SmallBio — página inteligente de links', phase:1, done:false},
+  {id:'c7', text:'Implantação do catálogo digital de serviços com fotos e preços', phase:1, done:false},
+  {id:'c8', text:'Cadastro e organização da base de clientes no CRM', phase:1, done:false},
+  // FASE 2 — PROCESSOS & AUTOMAÇÃO (30–60 dias)
+  {id:'c9', text:'Ativação do fluxo automático de boas-vindas para novos clientes', phase:2, done:false},
+  {id:'c10', text:'Configuração do pós-atendimento automático com pesquisa de satisfação (NPS)', phase:2, done:false},
+  {id:'c11', text:'Ativação do fluxo de reativação de clientes inativos (+60 dias)', phase:2, done:false},
+  {id:'c12', text:'Implantação do controle financeiro: DRE, fluxo de caixa e custo por procedimento', phase:2, done:false},
+  {id:'c13', text:'Estruturação do programa de fidelidade e retorno programado por serviço', phase:2, done:false},
+  {id:'c14', text:'Treinamento da equipe: atendimento, upsell e experiência do cliente', phase:2, done:false},
+  {id:'c15', text:'Configuração do sistema de comissão e meta por profissional', phase:2, done:false},
+  {id:'c16', text:'Ativação e otimização do Google Meu Negócio com estratégia de avaliações', phase:2, done:false},
+  // FASE 3 — CRESCIMENTO & ESCALA (60–90 dias)
+  {id:'c17', text:'Implantação do plano de captação: indicação estruturada e tráfego local', phase:3, done:false},
+  {id:'c18', text:'Revisão de precificação com base em dados reais de lucratividade', phase:3, done:false},
+  {id:'c19', text:'Avaliação de desempenho da equipe com base em KPIs definidos', phase:3, done:false},
+  {id:'c20', text:'Revisão e otimização de todos os fluxos de automação implantados', phase:3, done:false},
+  {id:'c21', text:'Análise dos KPIs: ticket médio, taxa de retorno, NPS e faturamento', phase:3, done:false},
+  {id:'c22', text:'Avaliação de maturidade — Score LUME revisado e plano de continuidade', phase:3, done:false},
 ];
 
 var PHASE_LABELS = {1:'0–30 dias',2:'30–60 dias',3:'60–90 dias'};
-var PHASE_NAMES = {1:'Estruturação',2:'Implementação',3:'Escala'};
+var PHASE_NAMES = {1:'Estrutura Base',2:'Processos & Automação',3:'Crescimento & Escala'};
 
 var NIVEL_LUME = [
   {max:30, label:'Fase de Estruturação', cor:'#ff6b6b'},
   {max:50, label:'Desenvolvimento Ativo', cor:'#ff8c00'},
-  {max:70, label:'Alto Potencial', cor:'#6e8fff'},
-  {max:100, label:'Maturidade LUME', cor:'#1c8fec'},
+  {max:70, label:'Alto Potencial', cor:'#1c8fec'},
+  {max:100, label:'Maturidade LUME', cor:'#51cf66'},
 ];
 
-// Sample data - will be replaced by localStorage
+// Sample data
 var DEFAULT_CLIENTS = [
   {
     id:'cl1', nome:'Ana Paula', empresa:'Studio Ana Beauty',
     email:'ana@studioana.com', senha:'ana123',
     whatsapp:'(34) 99801-1234', nicho:'estetica',
     metodologia:'lume', score:58, status:'active',
-    obs:'Cliente engajada, foco em automações e fidelização.',
+    obs:'Foco em fidelização e automação de reativação. Agenda desorganizada.',
     startDate: new Date(Date.now()-35*24*60*60*1000).toISOString(),
-    pilares:{Gestão:14,'Eficiência Comercial':12,Digital:10,Automação:8,'Gestão de Pessoas':12,Expansão:14},
+    pilares:{'Agendamento & Organização':14,'Gestão Financeira':10,'Fidelização & Retenção':12,'Captação & Marketing':8,'Presença Digital':10,'Processos & Automação':8,'Equipe & Profissionalização':12,'Experiência do Cliente':14,'Crescimento & Visão':12},
     scoreHistory:[32,38,45,52,58],
     checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<4;return c;}),
     tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i<2?'integrated':'pending';return t;})
@@ -827,7 +840,7 @@ var DEFAULT_CLIENTS = [
     metodologia:'lume-expansao', score:42, status:'starting',
     obs:'Foco em captação ativa e pipeline comercial.',
     startDate: new Date(Date.now()-12*24*60*60*1000).toISOString(),
-    pilares:{Gestão:10,'Eficiência Comercial':8,Digital:8,Automação:6,'Gestão de Pessoas':10,Expansão:8},
+    pilares:{'Agendamento & Organização':8,'Gestão Financeira':8,'Fidelização & Retenção':6,'Captação & Marketing':8,'Presença Digital':8,'Processos & Automação':6,'Equipe & Profissionalização':10,'Experiência do Cliente':8,'Crescimento & Visão':8},
     scoreHistory:[28,35,42],
     checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<2;return c;}),
     tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i===6?'integrated':'pending';return t;})
@@ -997,13 +1010,28 @@ function getClientPhase(client) {
 }
 
 function buildMetas(client) {
+  var diasNoPrograma = Math.floor((Date.now()-new Date(client.startDate).getTime())/(24*60*60*1000));
   var phases = [
-    {num:1,title:'Estruturação (0–30 dias)',items:['Diagnóstico e alinhamento estratégico','Configuração do CRM e organização comercial','Criação da página SmallBio e presença digital','Definição de KPIs e métricas principais'],status:'done'},
-    {num:2,title:'Implementação (30–60 dias)',items:['Ativação do agendamento digital 24h','Implantação das automações de comunicação','Catálogo interativo e ferramentas de venda','Benefícios de saúde e telemedicina para equipe'],status:'active'},
-    {num:3,title:'Escala (60–90 dias)',items:['Automações de reativação e pós-venda','Revisão de KPIs e otimização de processos','Plano de expansão estruturado','Avaliação final de maturidade LUME'],status:'pending'},
+    {num:1,title:'Estrutura Base (0–30 dias)',items:[
+      'Organização da agenda e migração para agendamento digital',
+      'Cadastro e organização da base de clientes no CRM',
+      'Criação do catálogo digital de serviços e SmallBio',
+      'Mapeamento de precificação e margem por procedimento'
+    ]},
+    {num:2,title:'Processos & Automação (30–60 dias)',items:[
+      'Fluxos automáticos: boas-vindas, pós-atendimento e NPS',
+      'Reativação automática de clientes inativos (+60 dias)',
+      'Controle financeiro: DRE e custo por procedimento',
+      'Estruturação de comissão, metas e treinamento da equipe'
+    ]},
+    {num:3,title:'Crescimento & Escala (60–90 dias)',items:[
+      'Plano de captação: indicação estruturada e tráfego local',
+      'Otimização do Google Meu Negócio e reputação digital',
+      'Revisão de KPIs: ticket médio, NPS e taxa de retorno',
+      'Avaliação final de maturidade LUME e plano de continuidade'
+    ]},
   ];
   var html = '';
-  var diasNoPrograma = Math.floor((Date.now()-new Date(client.startDate).getTime())/(24*60*60*1000));
   phases.forEach(function(ph){
     var st = diasNoPrograma > ph.num*30 ? 'done' : (diasNoPrograma > (ph.num-1)*30 ? 'active' : 'pending');
     html+='<div class="timeline-item phase-'+st+'">'+
