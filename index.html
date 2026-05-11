@@ -410,30 +410,81 @@ body::after{
 <script>
 var PERGUNTAS = {
   estetica:[
-    {eixo:'Gestão',icon:'📊',q:'Como você organiza a gestão financeira e operacional do negócio?',opts:[
-      {t:'Sem controle definido',p:1},{t:'Planilha manual básica',p:2},{t:'Ferramentas parciais',p:3},{t:'Gestão integrada com relatórios automáticos',p:5}]},
-    {eixo:'Eficiência Comercial',icon:'📅',q:'Como seus clientes agendam atendimentos hoje?',opts:[
-      {t:'WhatsApp / telefone sem organização',p:1},{t:'Agenda física ou planilha',p:2},{t:'Sistema básico de agendamento',p:3},{t:'Agendamento online 24h com confirmação automática',p:5}]},
-    {eixo:'Digital',icon:'🔗',q:'Como você apresenta serviços e preços para novos clientes?',opts:[
-      {t:'Verbalmente ou foto no WhatsApp',p:1},{t:'PDF ou cardápio impresso',p:2},{t:'Posts e stories no Instagram',p:3},{t:'Catálogo digital interativo atualizado',p:5}]},
-    {eixo:'Automação',icon:'⚙️',q:'Você usa automações para comunicação e pós-atendimento com clientes?',opts:[
-      {t:'Não uso nenhuma automação',p:1},{t:'Apenas resposta automática básica',p:2},{t:'Automação parcial de confirmações',p:3},{t:'Fluxos completos: boas-vindas, pós-atendimento, reativação',p:5}]},
-    {eixo:'Gestão de Pessoas',icon:'👥',q:'Como você gerencia e retém seus colaboradores e prestadores de serviço?',opts:[
-      {t:'Sem processo estruturado de gestão de pessoas',p:1},{t:'Conversas informais, sem política definida',p:2},{t:'Tenho algumas práticas mas não formalizadas',p:3},{t:'Processo estruturado com benefícios, metas e feedback',p:5}]},
-    {eixo:'Gestão de Pessoas',icon:'💊',q:'Sua empresa oferece algum benefício de saúde ou bem-estar para colaboradores?',opts:[
-      {t:'Não, nenhum benefício',p:1},{t:'Só vale alimentação / refeição',p:2},{t:'Plano de saúde tradicional básico',p:3},{t:'Telemedicina + benefícios integrados de saúde e bem-estar',p:5}]},
-    {eixo:'Digital',icon:'🔗',q:'Como está sua presença digital para captação de novos clientes?',opts:[
-      {t:'Só Instagram sem estratégia',p:1},{t:'Site básico ou link simples na bio',p:2},{t:'Link bio com algumas opções',p:3},{t:'Página inteligente com agendamento, catálogo e CTA',p:5}]},
-    {eixo:'Expansão',icon:'🚀',q:'Você tem estratégia ativa para atrair novos clientes além do boca a boca?',opts:[
-      {t:'Não, só indicação orgânica',p:1},{t:'Às vezes faço posts no Instagram',p:2},{t:'Tenho algumas ações de marketing',p:3},{t:'Estratégia multicanal com metas de crescimento',p:5}]},
-    {eixo:'Automação',icon:'⚙️',q:'Como você recupera clientes que não voltam há mais de 60 dias?',opts:[
-      {t:'Não faço nada',p:1},{t:'Mando mensagem manual às vezes',p:2},{t:'Campanha ocasional manual',p:3},{t:'Fluxo automático de reativação ativo',p:5}]},
-    {eixo:'Gestão',icon:'📊',q:'Você sabe qual serviço mais fatura e qual cliente mais traz retorno?',opts:[
-      {t:'Não tenho esse controle',p:1},{t:'Tenho uma ideia geral',p:2},{t:'Controlo manualmente em planilha',p:3},{t:'Relatórios automáticos no sistema',p:5}]},
-    {eixo:'Gestão de Pessoas',icon:'👥',q:'Você tem processo estruturado de treinamento e desenvolvimento da equipe?',opts:[
-      {t:'Não, cada um aprende na prática',p:1},{t:'Oriento informalmente',p:2},{t:'Tenho alguns treinamentos esporádicos',p:3},{t:'Programa contínuo de capacitação e avaliação de desempenho',p:5}]},
-    {eixo:'Expansão',icon:'🚀',q:'Qual é sua visão de crescimento para os próximos 12 meses?',opts:[
-      {t:'Manter como está',p:1},{t:'Crescer um pouco organicamente',p:2},{t:'Estruturar para escalar',p:4},{t:'Expandir com método e tecnologia',p:5}]},
+    {eixo:'Agendamento & Organização',icon:'📅',q:'Como sua agenda de atendimentos é gerenciada hoje?',opts:[
+      {t:'No WhatsApp informal, sem controle algum',p:1},
+      {t:'Agenda física ou planilha — perco muito tempo',p:2},
+      {t:'App básico mas sem confirmação automática',p:3},
+      {t:'Sistema online 24h com confirmação e lembrete automático',p:5}]},
+    {eixo:'Agendamento & Organização',icon:'📅',q:'Com que frequência clientes faltam ou cancelam em cima da hora?',opts:[
+      {t:'Todo dia — tenho prejuízo com isso',p:1},
+      {t:'Algumas vezes por semana',p:2},
+      {t:'Raramente — mando lembretes manuais',p:3},
+      {t:'Quase nunca — lembretes automáticos funcionam',p:5}]},
+    {eixo:'Gestão Financeira',icon:'💰',q:'Como você controla faturamento, custos e lucratividade do negócio?',opts:[
+      {t:'Não controlo — não sei se estou lucrando',p:1},
+      {t:'Anoto no caderno ou planilha simples',p:2},
+      {t:'Controlo parcialmente mas sem clareza total',p:3},
+      {t:'Sistema com DRE, fluxo de caixa e indicadores em tempo real',p:5}]},
+    {eixo:'Gestão Financeira',icon:'💰',q:'Você sabe qual procedimento mais fatura e qual tem maior margem de lucro?',opts:[
+      {t:'Não tenho essa informação',p:1},
+      {t:'Tenho uma ideia geral mas sem dados precisos',p:2},
+      {t:'Sei aproximadamente, calculo manualmente',p:3},
+      {t:'Tenho relatórios automáticos de rentabilidade por serviço',p:5}]},
+    {eixo:'Fidelização & Retenção',icon:'💎',q:'Como você garante que um cliente que veio uma vez volte sempre?',opts:[
+      {t:'Não tenho estratégia — espero ele ligar',p:1},
+      {t:'Às vezes mando mensagem no WhatsApp',p:2},
+      {t:'Tenho alguns retornos programados mas de forma manual',p:3},
+      {t:'CRM com histórico, datas de retorno e reativação automática',p:5}]},
+    {eixo:'Fidelização & Retenção',icon:'💎',q:'Você sabe há quanto tempo cada cliente não aparece?',opts:[
+      {t:'Não — não tenho esse controle',p:1},
+      {t:'Lembro de memória dos clientes fixos apenas',p:2},
+      {t:'Controlo manualmente em planilha',p:3},
+      {t:'Sistema me alerta automaticamente sobre clientes inativos',p:5}]},
+    {eixo:'Captação & Marketing',icon:'📱',q:'Como novos clientes descobrem e escolhem o seu negócio?',opts:[
+      {t:'Só indicação boca a boca',p:1},
+      {t:'Instagram com posts esporádicos sem estratégia',p:2},
+      {t:'Instagram ativo + link na bio básico',p:3},
+      {t:'Estratégia multicanal: digital, Google, catálogo e indicação estruturada',p:5}]},
+    {eixo:'Captação & Marketing',icon:'📱',q:'Como você apresenta seus serviços, procedimentos e preços para novos clientes?',opts:[
+      {t:'Verbalmente ou foto no WhatsApp na hora',p:1},
+      {t:'Cardápio impresso ou PDF desatualizado',p:2},
+      {t:'Stories e posts do Instagram',p:3},
+      {t:'Catálogo digital interativo com fotos, detalhes e preços',p:5}]},
+    {eixo:'Presença Digital',icon:'🌐',q:'Qual é sua presença digital para quem pesquisa seu negócio online?',opts:[
+      {t:'Só perfil no Instagram sem organização',p:1},
+      {t:'Instagram + link na bio básico',p:2},
+      {t:'Página no Google Meu Negócio básica',p:3},
+      {t:'Página inteligente com agendamento, catálogo, avaliações e WhatsApp',p:5}]},
+    {eixo:'Processos & Automação',icon:'⚙️',q:'O que acontece automaticamente após um atendimento no seu negócio?',opts:[
+      {t:'Nada — encerro e espero ele ligar de novo',p:1},
+      {t:'Às vezes mando mensagem manual de agradecimento',p:2},
+      {t:'Peço avaliação no Google manualmente',p:3},
+      {t:'Sequência automática: avaliação, próximo agendamento e desconto de retorno',p:5}]},
+    {eixo:'Processos & Automação',icon:'⚙️',q:'Como você gerencia estoque de produtos usados nos atendimentos?',opts:[
+      {t:'Não controlo — compro quando acaba',p:1},
+      {t:'Anoto no caderno o que está faltando',p:2},
+      {t:'Planilha de controle manual',p:3},
+      {t:'Sistema com alerta de reposição e custo por procedimento',p:5}]},
+    {eixo:'Equipe & Profissionalização',icon:'👥',q:'Como você gerencia e motiva sua equipe ou prestadores de serviço?',opts:[
+      {t:'Trabalho sozinho(a) sem equipe ainda',p:1},
+      {t:'Conversas informais sem metas ou avaliação',p:2},
+      {t:'Tenho comissão definida mas sem processo formal',p:3},
+      {t:'Metas, avaliação de desempenho e plano de crescimento para cada um',p:5}]},
+    {eixo:'Equipe & Profissionalização',icon:'👥',q:'Com que frequência você investe em capacitação técnica e de atendimento?',opts:[
+      {t:'Raramente ou nunca',p:1},
+      {t:'Quando alguém pede ou surge oportunidade',p:2},
+      {t:'Anualmente de forma planejada',p:3},
+      {t:'Programa contínuo com treinamentos técnicos e de experiência do cliente',p:5}]},
+    {eixo:'Experiência do Cliente',icon:'⭐',q:'Como você mede a satisfação e coleta avaliações dos seus clientes?',opts:[
+      {t:'Não meço — só percebo se reclamar',p:1},
+      {t:'Pergunto pessoalmente na hora',p:2},
+      {t:'Às vezes peço avaliação no Google ou Instagram',p:3},
+      {t:'NPS automático pós-atendimento + gestão de avaliações online',p:5}]},
+    {eixo:'Crescimento & Visão',icon:'🚀',q:'Qual é sua visão de crescimento para os próximos 12 meses?',opts:[
+      {t:'Manter como está — estou sobrecarregado(a)',p:1},
+      {t:'Crescer organicamente sem mudanças grandes',p:2},
+      {t:'Estruturar processos para crescer com mais qualidade',p:4},
+      {t:'Escalar com método, tecnologia e talvez abrir nova unidade',p:5}]},
   ],
   saude:[
     {eixo:'Gestão',icon:'📊',q:'Como você gerencia a parte administrativa e financeira da clínica/consultório?',opts:[
@@ -596,7 +647,7 @@ var NIVEL_LABELS=[
   {max:60,label:'🟣 Maturidade Intermediária',cor:'#7c5cfc',bg:'rgba(124,92,252,.1)'},
   {max:100,label:'🟢 Maturidade Avançada',cor:'#00c6ff',bg:'rgba(0,198,255,.1)'}
 ];
-var EIXOS=['Gestão','Eficiência Comercial','Digital','Automação','Gestão de Pessoas','Expansão'];
+var EIXOS=['Agendamento & Organização','Gestão Financeira','Fidelização & Retenção','Captação & Marketing','Presença Digital','Processos & Automação','Equipe & Profissionalização','Experiência do Cliente','Crescimento & Visão'];
 var solucoes={
   'Automação':{icon:'⚙️',nome:'Automações Comerciais',desc:'Fluxos de boas-vindas, pós-venda, reativação e nutrição de leads.'},
   'Eficiência Comercial':{icon:'📅',nome:'CRM + Agendamento Digital',desc:'Pipeline visual, histórico de clientes e agendamento 24h com confirmação automática.'},
