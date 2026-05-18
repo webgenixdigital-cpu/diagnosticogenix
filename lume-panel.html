@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LUME Growth Panel Acompanhamento</title>
+<title>LUME Growth Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -55,7 +55,7 @@ body::after {
 }
 
 /* SCREENS */
-.screen { display: none !important; position: relative; z-index: 1; min-height: 100vh; }
+.screen { display: none !important; position: relative; z-index: 2; min-height: 100vh; }
 .screen.active { display: block !important; }
 
 /* ══════════════════════════════
@@ -71,6 +71,7 @@ body::after {
   position: fixed;
   inset: 0;
   overflow-y: auto;
+  z-index: 10;
 }
 #screen-login:not(.active) { display: none !important; }
 
@@ -83,6 +84,8 @@ body::after {
   box-shadow: var(--shadow);
   animation: fadeUp .5s ease both;
   margin: auto;
+  position: relative;
+  z-index: 11;
 }
 .login-logo {
   text-align: center;
@@ -102,8 +105,8 @@ body::after {
 .login-brand { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: .12em; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .login-sub { font-size: 12px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
 .login-box h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--text); }
-.tab-row { display: flex; gap: 8px; margin-bottom: 28px; background: var(--bg2); border-radius: 12px; padding: 4px; }
-.tab-btn { flex: 1; padding: 9px; border-radius: 9px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: all .2s; background: transparent; color: var(--muted); }
+.tab-row { display: flex; gap: 8px; margin-bottom: 28px; background: var(--bg2); border-radius: 12px; padding: 4px; position: relative; z-index: 12; }
+.tab-btn { flex: 1; padding: 9px; border-radius: 9px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: all .2s; background: transparent; color: var(--muted); position: relative; z-index: 12; }
 .tab-btn.active { background: var(--card2); color: var(--lume2); box-shadow: 0 2px 8px rgba(0,0,0,.3); }
 .field { margin-bottom: 16px; }
 .field label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
@@ -1810,7 +1813,7 @@ function importLeadsFromSheets() {
       nome: 'Lead Teste', empresa: 'Empresa Exemplo', email: 'lead@teste.com',
       whatsapp: '(34) 99999-0000', nicho: 'estetica', score: 52,
       perfil: 'O Escalador', potencial: 68,
-      eixos: {Gestão:12,'Eficiência Comercial':10,Digital:9,Automação:7,'Gestão de Pessoas':11,Expansão:13}
+      eixos: {'Agendamento & Organização':14,'Gestão Financeira':10,'Fidelização & Retenção':12,'Captação & Marketing':9,'Presença Digital':10,'Processos & Automação':7,'Equipe & Profissionalização':11,'Experiência do Cliente':12,'Crescimento & Visão':13}
     });
   } else {
     var parts = csv.split(',');
@@ -1913,7 +1916,9 @@ function ativarConta() {
       obs: 'Ativado via assessment G.E.N.I.X. · Perfil: ' + (lead.perfil||'—'),
       startDate: new Date().toISOString(),
       pilares: lead.eixos && Object.keys(lead.eixos).length > 0 ? lead.eixos : {
-        'Gestão':10,'Eficiência Comercial':10,'Digital':10,'Automação':10,'Gestão de Pessoas':10,'Expansão':10
+        'Agendamento & Organização':10,'Gestão Financeira':10,'Fidelização & Retenção':10,
+        'Captação & Marketing':10,'Presença Digital':10,'Processos & Automação':10,
+        'Equipe & Profissionalização':10,'Experiência do Cliente':10,'Crescimento & Visão':10
       },
       scoreHistory: [lead.score || 40],
       checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)),
