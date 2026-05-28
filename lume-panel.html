@@ -1531,28 +1531,44 @@ function renderClientList() {
   document.getElementById('admin-avg-tasks').textContent = avgTasks+'%';
   document.getElementById('admin-lume-count').textContent = clients.filter(function(cl){return cl.metodologia&&cl.metodologia.includes('lume');}).length;
 
-  var statusLabels = {active:'Ativo',starting:'Iniciando',review:'Em Revisão'};
+  var statusLabels = {active:'Ativo',starting:'Iniciando',review:'Em Revisao'};
   var statusClasses = {active:'badge-active',starting:'badge-starting',review:'badge-review'};
 
-  var html = '';
-  clients.forEach(function(cl){
-    var seg = BEAUTY_SEGMENTS[cl.nicho] || {nome:cl.nicho||'Beleza',icon:'💆',cor:'#1c8fec'};
+  var container = document.getElementById('admin-client-list');
+  if(!container) return;
+  container.innerHTML = '';
+
+  if(clients.length === 0) {
+    container.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted)">Nenhum cliente cadastrado ainda.</div>';
+    return;
+  }
+
+  clients.forEach(function(cl) {
+    var seg = BEAUTY_SEGMENTS[cl.nicho] || {nome:'Beleza',icon:'💆',cor:'#1c8fec'};
     var met = METODOLOGIAS[cl.metodologia] || cl.metodologia || 'LUME';
-    var tasksPct = Math.round((cl.checklist.filter(function(t){return t.done;}).length/Math.max(cl.checklist.length,1))*100);
-    html+='<div class="client-row" onclick="openClientModal(''+cl.id+'')">'+
+    var tasksDone = cl.checklist.filter(function(t){return t.done;}).length;
+    var tasksPct = Math.round((tasksDone/Math.max(cl.checklist.length,1))*100);
+    var statusClass = statusClasses[cl.status] || 'badge-active';
+    var statusLabel = statusLabels[cl.status] || 'Ativo';
+
+    var row = document.createElement('div');
+    row.className = 'client-row';
+    row.style.cursor = 'pointer';
+    row.setAttribute('data-id', cl.id);
+    row.onclick = function() { openClientModal(this.getAttribute('data-id')); };
+    row.innerHTML =
       '<div class="client-avatar" style="background:linear-gradient(135deg,'+seg.cor+','+seg.cor+'99);color:#fff;font-size:20px">'+seg.icon+'</div>'+
       '<div class="client-info">'+
-        '<div class="client-name">'+cl.nome+' . '+cl.empresa+'</div>'+
-        '<div class="client-nicho">'+seg.nome+' . '+met+'</div>'+
+        '<div class="client-name">'+cl.nome+' - '+cl.empresa+'</div>'+
+        '<div class="client-nicho">'+seg.nome+' - '+met+'</div>'+
       '</div>'+
       '<div class="client-score">'+
         '<div class="client-score-num">'+cl.score+'</div>'+
         '<div class="client-score-lbl">score LUME</div>'+
       '</div>'+
-      '<span class="client-badge '+(statusClasses[cl.status]||'badge-active')+'">'+(statusLabels[cl.status]||'Ativo')+'</span>'+
-    '</div>';
+      '<span class="client-badge '+statusClass+'">'+statusLabel+'</span>';
+    container.appendChild(row);
   });
-  document.getElementById('admin-client-list').innerHTML = html || '<div style="padding:32px;text-align:center;color:var(--muted)">Nenhum cliente cadastrado ainda.</div>';
 }
 
 function openClientModal(id) {
@@ -1799,7 +1815,7 @@ function renderLeadList() {
   }
 
   // avatars now use BEAUTY_SEGMENTS
-  var nichoNomes = {salao:'Salão de Beleza',clinica:'Clínica Estética',beauty:'Beauty Design',barbearia:'Barbearia',spa:'Spa & Bem-estar',studio:'Studio Especializado'};
+  // Uses global BEAUTY_SEGMENTS
 
   var html = '<div style="display:flex;flex-direction:column;gap:12px">';
   leads.forEach(function(lead, i) {
