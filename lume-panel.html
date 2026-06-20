@@ -468,7 +468,7 @@ body::after {
           </div>
           <div class="stat-card">
             <div class="stat-icon">🏛️</div>
-            <div class="stat-val" id="stat-pilares">0/6</div>
+            <div class="stat-val" id="stat-pilares">0/4</div>
             <div class="stat-label">Pilares em evolução</div>
           </div>
           <div class="stat-card">
@@ -720,17 +720,12 @@ body::after {
             <div class="form-field full"><label>Observações</label><textarea id="f-client-obs" placeholder="Pontos de atenção, contexto, perfil..."></textarea></div>
           </div>
           <div class="divider"></div>
-          <div class="card-title mb-16">Pilares Beauty (Score 0–20 cada)</div>
+          <div class="card-title mb-16">Pilares LUME (Score 0-100 cada)</div>
           <div class="form-grid">
-            <div class="form-field"><label>Agendamento & Organização</label><input type="number" id="fp-agendamento" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Gestão Financeira</label><input type="number" id="fp-financeira" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Fidelização & Retenção</label><input type="number" id="fp-fidelizacao" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Captação & Marketing</label><input type="number" id="fp-captacao" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Presença Digital</label><input type="number" id="fp-digital" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Processos & Automação</label><input type="number" id="fp-automacao" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Equipe & Profissionalização</label><input type="number" id="fp-equipe" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Experiência do Cliente</label><input type="number" id="fp-experiencia" min="0" max="20" placeholder="0-20" value="10"></div>
-            <div class="form-field"><label>Crescimento & Visão</label><input type="number" id="fp-crescimento" min="0" max="20" placeholder="0-20" value="10"></div>
+            <div class="form-field"><label>Clareza</label><input type="number" id="fp-clareza" min="0" max="100" placeholder="0-100" value="40"></div>
+            <div class="form-field"><label>Estrutura</label><input type="number" id="fp-estrutura" min="0" max="100" placeholder="0-100" value="40"></div>
+            <div class="form-field"><label>Experiência</label><input type="number" id="fp-experiencia" min="0" max="100" placeholder="0-100" value="40"></div>
+            <div class="form-field"><label>Evolução</label><input type="number" id="fp-evolucao" min="0" max="100" placeholder="0-100" value="40"></div>
           </div>
           <div class="divider"></div>
           <div style="display:flex;gap:12px;justify-content:flex-end">
@@ -864,9 +859,15 @@ var METODOLOGIAS = {
 var ADMIN_WHATSAPP = '5534999999999';
 // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-var PILARES = ['Agendamento & Organização','Gestão Financeira','Fidelização & Retenção','Captação & Marketing','Presença Digital','Processos & Automação','Equipe & Profissionalização','Experiência do Cliente','Crescimento & Visão'];
-var PILAR_COLORS = ['#1c8fec','#f857a6','#51cf66','#ff8c00','#6483d3','#4ecdc4','#b512b9','#ffd166','#29a3e6'];
-var PILAR_ICONS = ['📅','💰','💎','📱','🌐','⚙️','👥','⭐','🚀'];
+var PILARES = ['Clareza','Estrutura','Experiência','Evolução'];
+var PILAR_COLORS = ['#6c63ff','#f7971e','#ff6584','#43e97b'];
+var PILAR_ICONS = ['🎯','🏗️','⭐','🚀'];
+var PILAR_DESC = {
+  'Clareza':'Visão, posicionamento e precificação do negócio',
+  'Estrutura':'Processos, organização e gestão operacional',
+  'Experiência':'Atendimento, fidelização e reputação',
+  'Evolução':'Crescimento, automação e escala'
+};
 
 var TOOLS = [
   {icon:'📅',nome:'Agendamento Digital 24h',status:'pending'},
@@ -928,7 +929,7 @@ var DEFAULT_CLIENTS = [
     metodologia:'lume', score:58, status:'active',
     obs:'Foco em fidelização e automação de reativação. Agenda desorganizada.',
     startDate: new Date(Date.now()-35*24*60*60*1000).toISOString(),
-    pilares:{'Agendamento & Organização':14,'Gestão Financeira':10,'Fidelização & Retenção':12,'Captação & Marketing':8,'Presença Digital':10,'Processos & Automação':8,'Equipe & Profissionalização':12,'Experiência do Cliente':14,'Crescimento & Visão':12},
+    pilares:{'Clareza':58,'Estrutura':52,'Experiência':62,'Evolução':48},
     scoreHistory:[32,38,45,52,58],
     checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<4;return c;}),
     tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i<2?'integrated':'pending';return t;})
@@ -940,7 +941,7 @@ var DEFAULT_CLIENTS = [
     metodologia:'lume', score:42, status:'starting',
     obs:'Foco em captação ativa e pipeline comercial.',
     startDate: new Date(Date.now()-12*24*60*60*1000).toISOString(),
-    pilares:{'Agendamento & Organização':8,'Gestão Financeira':8,'Fidelização & Retenção':6,'Captação & Marketing':8,'Presença Digital':8,'Processos & Automação':6,'Equipe & Profissionalização':10,'Experiência do Cliente':8,'Crescimento & Visão':8},
+    pilares:{'Clareza':38,'Estrutura':35,'Experiência':45,'Evolução':40},
     scoreHistory:[28,35,42],
     checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<2;return c;}),
     tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i===6?'integrated':'pending';return t;})
@@ -1043,7 +1044,7 @@ function loadClientPanel(client) {
   document.getElementById('stat-tasks-done').textContent = tasksDone;
   document.getElementById('stat-tasks-pct').textContent = tasksPct+'% do plano';
   document.getElementById('stat-dias').textContent = diasNoPrograma;
-  document.getElementById('stat-pilares').textContent = Object.values(client.pilares).filter(function(v){return v>=10;}).length+'/9';
+  document.getElementById('stat-pilares').textContent = Object.values(client.pilares).filter(function(v){return v>=50;}).length+'/4';
   document.getElementById('stat-tools').textContent = toolsInt;
 
   // Ring animation
@@ -1062,9 +1063,9 @@ function loadClientPanel(client) {
   var pillarsHtml = '';
   PILARES.forEach(function(p,i){
     var v=client.pilares[p]||0;
-    var pct=(v/20)*100;
+    var pct=v;
     pillarsHtml+='<div class="pillar-item">'+
-      '<div class="pillar-head"><span class="pillar-name">'+PILAR_ICONS[i]+' '+p+'</span><span class="pillar-score">'+v+'/20</span></div>'+
+      '<div class="pillar-head"><span class="pillar-name">'+PILAR_ICONS[i]+' '+p+'</span><span class="pillar-score">'+v+'/100</span></div>'+
       '<div class="pillar-bar-bg"><div class="pillar-bar-fill" style="width:0%;background:'+PILAR_COLORS[i]+'" data-w="'+pct+'"></div></div>'+
     '</div>';
   });
@@ -1385,24 +1386,14 @@ function buildPilares(client) {
   var html = '';
   PILARES.forEach(function(p,i){
     var v = client.pilares[p]||0;
-    var pct = (v/20)*100;
-    var desc = {
-      'Agendamento & Organização':'Agenda digital, confirmações automáticas e redução de faltas.',
-      'Gestão Financeira':'DRE, fluxo de caixa, ticket médio e rentabilidade por serviço.',
-      'Fidelização & Retenção':'CRM, retorno programado, reativação de inativos e aniversários.',
-      'Captação & Marketing':'Indicação estruturada, tráfego local e Google Meu Negócio.',
-      'Presença Digital':'SmallBio, catálogo online, avaliações e agendamento digital.',
-      'Processos & Automação':'Pós-atendimento, NPS automático, estoque e fluxos de reativação.',
-      'Equipe & Profissionalização':'Metas, comissão, treinamento e avaliação de desempenho.',
-      'Experiência do Cliente':'NPS, satisfação, reputação e gestão de avaliações online.',
-      'Crescimento & Visão':'Expansão estruturada, método LUME e plano de escala.'
-    }[p];
+    var pct = v;
+    var desc = PILAR_DESC[p] || '';
     html+='<div class="card">'+
       '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'+
         '<div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:18px">'+PILAR_ICONS[i]+'</div>'+
         '<div><div style="font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:var(--text)">'+p+'</div>'+
-        '<div style="font-size:12px;color:var(--muted)">Pilar estratégico</div></div>'+
-        '<div style="margin-left:auto;font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:'+PILAR_COLORS[i]+'">'+v+'<span style="font-size:13px;color:var(--muted)">/20</span></div>'+
+        '<div style="font-size:12px;color:var(--muted)">Pilar LUME</div></div>'+
+        '<div style="margin-left:auto;font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:'+PILAR_COLORS[i]+'">'+v+'<span style="font-size:13px;color:var(--muted)">/100</span></div>'+
       '</div>'+
       '<div class="pillar-bar-bg" style="margin-bottom:12px"><div style="height:6px;width:'+pct+'%;background:'+PILAR_COLORS[i]+';border-radius:100px;transition:width 1s"></div></div>'+
       '<div style="font-size:13px;color:var(--muted);line-height:1.55">'+desc+'</div>'+
@@ -1625,15 +1616,10 @@ function editClient(id) {
   document.getElementById('f-client-score').value = c.score;
   document.getElementById('f-client-status').value = c.status;
   document.getElementById('f-client-obs').value = c.obs;
-  document.getElementById('fp-agendamento').value = c.pilares['Agendamento & Organização']||10;
-  document.getElementById('fp-financeira').value = c.pilares['Gestão Financeira']||10;
-  document.getElementById('fp-fidelizacao').value = c.pilares['Fidelização & Retenção']||10;
-  document.getElementById('fp-captacao').value = c.pilares['Captação & Marketing']||10;
-  document.getElementById('fp-digital').value = c.pilares['Presença Digital']||10;
-  document.getElementById('fp-automacao').value = c.pilares['Processos & Automação']||10;
-  document.getElementById('fp-equipe').value = c.pilares['Equipe & Profissionalização']||10;
-  document.getElementById('fp-experiencia').value = c.pilares['Experiência do Cliente']||10;
-  document.getElementById('fp-crescimento').value = c.pilares['Crescimento & Visão']||10;
+  document.getElementById('fp-clareza').value = c.pilares['Clareza']||40;
+  document.getElementById('fp-estrutura').value = c.pilares['Estrutura']||40;
+  document.getElementById('fp-experiencia').value = c.pilares['Experiência']||40;
+  document.getElementById('fp-evolucao').value = c.pilares['Evolução']||40;
 }
 
 function deleteClient(id) {
@@ -1663,15 +1649,10 @@ function salvarCliente() {
     obs: document.getElementById('f-client-obs').value,
     startDate: editingClientId ? (getClientById(editingClientId)||{}).startDate||new Date().toISOString() : new Date().toISOString(),
     pilares: {
-      'Agendamento & Organização': parseInt(document.getElementById('fp-agendamento').value)||10,
-      'Gestão Financeira': parseInt(document.getElementById('fp-financeira').value)||10,
-      'Fidelização & Retenção': parseInt(document.getElementById('fp-fidelizacao').value)||10,
-      'Captação & Marketing': parseInt(document.getElementById('fp-captacao').value)||10,
-      'Presença Digital': parseInt(document.getElementById('fp-digital').value)||10,
-      'Processos & Automação': parseInt(document.getElementById('fp-automacao').value)||10,
-      'Equipe & Profissionalização': parseInt(document.getElementById('fp-equipe').value)||10,
-      'Experiência do Cliente': parseInt(document.getElementById('fp-experiencia').value)||10,
-      'Crescimento & Visão': parseInt(document.getElementById('fp-crescimento').value)||10,
+      'Clareza': parseInt(document.getElementById('fp-clareza').value)||40,
+      'Estrutura': parseInt(document.getElementById('fp-estrutura').value)||40,
+      'Experiência': parseInt(document.getElementById('fp-experiencia').value)||40,
+      'Evolução': parseInt(document.getElementById('fp-evolucao').value)||40,
     },
     scoreHistory: editingClientId ? (getClientById(editingClientId)||{}).scoreHistory||[parseInt(document.getElementById('f-client-score').value)||40] : [parseInt(document.getElementById('f-client-score').value)||40],
     checklist: editingClientId ? (getClientById(editingClientId)||{}).checklist||JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)) : JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)),
@@ -1694,8 +1675,8 @@ function clearClientForm() {
     var el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('f-client-score').value = '';
-  ['fp-agendamento','fp-financeira','fp-fidelizacao','fp-captacao','fp-digital','fp-automacao','fp-equipe','fp-experiencia','fp-crescimento'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.value='10';
+  ['fp-clareza','fp-estrutura','fp-experiencia','fp-evolucao'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='40';
   });
 }
 
@@ -1896,17 +1877,17 @@ function importLeadsFromSheets() {
     // Add test lead
     saveLeadFromAssessment({
       nome: 'Lead Teste', empresa: 'Empresa Exemplo', email: 'lead@teste.com',
-      whatsapp: '(34) 99999-0000', nicho: 'estetica', score: 52,
-      perfil: 'O Escalador', potencial: 68,
-      eixos: {'Agendamento & Organização':14,'Gestão Financeira':10,'Fidelização & Retenção':12,'Captação & Marketing':9,'Presença Digital':10,'Processos & Automação':7,'Equipe & Profissionalização':11,'Experiência do Cliente':12,'Crescimento & Visão':13}
+      whatsapp: '(34) 99999-0000', nicho: 'salao', score: 52,
+      perfil: 'Profissional em Ascensão', potencial: 68,
+      eixos: {'Clareza':55,'Estrutura':48,'Experiência':58,'Evolução':46}
     });
   } else {
     var parts = csv.split(',');
     if (parts.length >= 4) {
       saveLeadFromAssessment({
         nome: parts[0].trim(), empresa: parts[1].trim(), email: parts[2].trim(),
-        whatsapp: parts[3].trim(), nicho: (parts[4]||'estetica').trim(),
-        score: parseInt(parts[5])||40, perfil: 'Diagnóstico G.E.N.I.X.', potencial: 60, eixos: {}
+        whatsapp: parts[3].trim(), nicho: (parts[4]||'salao').trim(),
+        score: parseInt(parts[5])||40, perfil: 'Diagnóstico LUME', potencial: 60, eixos: {}
       });
     }
   }
@@ -2001,9 +1982,7 @@ function ativarConta() {
       obs: 'Ativado via assessment G.E.N.I.X. . Perfil: ' + (lead.perfil||'-'),
       startDate: new Date().toISOString(),
       pilares: lead.eixos && Object.keys(lead.eixos).length > 0 ? lead.eixos : {
-        'Agendamento & Organização':10,'Gestão Financeira':10,'Fidelização & Retenção':10,
-        'Captação & Marketing':10,'Presença Digital':10,'Processos & Automação':10,
-        'Equipe & Profissionalização':10,'Experiência do Cliente':10,'Crescimento & Visão':10
+        'Clareza':40,'Estrutura':40,'Experiência':40,'Evolução':40
       },
       scoreHistory: [lead.score || 40],
       checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)),
