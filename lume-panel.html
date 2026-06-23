@@ -7,52 +7,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080810;
-  --bg2: #0e0d1c;
-  --card: #111225;
-  --card2: #161730;
-  --border: rgba(100,131,211,.12);
-  --border2: rgba(100,131,211,.22);
-  --lume1: #1c8fec;
-  --lume2: #29a3e6;
-  --lume3: #7ca0ea;
-  --accent: #b512b9;
-  --accent2: #d155b5;
-  --accent3: #6c23a9;
-  --danger: #ff6b6b;
-  --success: #51cf66;
-  --text: #f0f0ff;
-  --text2: #a0a8d0;
-  --muted: #50527a;
-  --radius: 16px;
-  --gold-grad: linear-gradient(135deg, #1c8fec, #6483d3, #b512b9);
-  --brand-grad: linear-gradient(135deg, #1c8fec, #29a3e6, #b512b9, #6c23a9);
-  --blue-grad: linear-gradient(135deg, #1c8fec, #3849bd);
-  --shadow: 0 8px 40px rgba(0,0,0,.6);
+  /* OPERA Design System */
+  --bg: #F7F8FA;
+  --bg2: #ECEEF1;
+  --card: #FFFFFF;
+  --card2: #F0F2F4;
+  --border: #E2E8EB;
+  --border2: #C8D4D8;
+  --petrol: #0F4C5C;
+  --petrol-dark: #0a3540;
+  --petrol-light: #1a6577;
+  --grafite: #2F3E46;
+  --verde: #2E8B57;
+  --verde-light: #3aad6e;
+  --cinza: #D9D9D9;
+  --cinza-mid: #B0B8BD;
+  --text-muted: #6B7C85;
+  /* Compat aliases */
+  --lume1: #0F4C5C;
+  --lume2: #1a6577;
+  --lume3: #2E8B57;
+  --accent: #6B4CA0;
+  --accent2: #8B6ABF;
+  --danger: #C0392B;
+  --success: #2E8B57;
+  --text: #2F3E46;
+  --text2: #4A5E68;
+  --muted: #6B7C85;
+  --radius: 12px;
+  --gold-grad: linear-gradient(135deg, #0F4C5C, #2E8B57);
+  --brand-grad: linear-gradient(135deg, #0F4C5C, #1a6577, #2E8B57);
+  --blue-grad: linear-gradient(135deg, #0F4C5C, #1a6577);
+  --shadow: 0 2px 12px rgba(15,76,92,.1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; font-size: 15px; }
+body { font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; font-size: 15px; }
 
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse 55% 45% at 5% 10%, rgba(28,143,236,.12) 0%, transparent 60%),
-    radial-gradient(ellipse 45% 55% at 95% 90%, rgba(181,18,185,.10) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 50% 50%, rgba(108,35,169,.07) 0%, transparent 65%),
-    radial-gradient(ellipse 30% 40% at 80% 10%, rgba(41,163,230,.08) 0%, transparent 55%);
+  background: radial-gradient(ellipse 50% 40% at 10% 15%, rgba(15,76,92,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 90% 85%, rgba(46,139,87,.05) 0%, transparent 60%);
   pointer-events: none; z-index: 0;
 }
 
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(28,143,236,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(28,143,236,.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none; z-index: 0;
-}
+body::after { display: none; }
 
 /* SCREENS */
 .screen { display: none !important; position: relative; z-index: 2; min-height: 100vh; }
@@ -720,12 +720,13 @@ body::after {
             <div class="form-field full"><label>Observações</label><textarea id="f-client-obs" placeholder="Pontos de atenção, contexto, perfil..."></textarea></div>
           </div>
           <div class="divider"></div>
-          <div class="card-title mb-16">Pilares LUME (Score 0-100 cada)</div>
+          <div class="card-title mb-16">Pilares OPERA™ (Score 0-20 cada)</div>
           <div class="form-grid">
-            <div class="form-field"><label>Clareza</label><input type="number" id="fp-clareza" min="0" max="100" placeholder="0-100" value="40"></div>
-            <div class="form-field"><label>Estrutura</label><input type="number" id="fp-estrutura" min="0" max="100" placeholder="0-100" value="40"></div>
-            <div class="form-field"><label>Experiência</label><input type="number" id="fp-experiencia" min="0" max="100" placeholder="0-100" value="40"></div>
-            <div class="form-field"><label>Evolução</label><input type="number" id="fp-evolucao" min="0" max="100" placeholder="0-100" value="40"></div>
+            <div class="form-field"><label>🗂️ Organização</label><input type="number" id="fp-O" min="0" max="20" placeholder="0-20" value="10"></div>
+            <div class="form-field"><label>⚙️ Processos</label><input type="number" id="fp-P" min="0" max="20" placeholder="0-20" value="10"></div>
+            <div class="form-field"><label>🏛️ Estruturação</label><input type="number" id="fp-E" min="0" max="20" placeholder="0-20" value="10"></div>
+            <div class="form-field"><label>🤝 Relacionamento</label><input type="number" id="fp-R" min="0" max="20" placeholder="0-20" value="10"></div>
+            <div class="form-field"><label>📊 Acompanhamento</label><input type="number" id="fp-A" min="0" max="20" placeholder="0-20" value="10"></div>
           </div>
           <div class="divider"></div>
           <div style="display:flex;gap:12px;justify-content:flex-end">
@@ -859,65 +860,79 @@ var METODOLOGIAS = {
 var ADMIN_WHATSAPP = '5534999999999';
 // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
-var PILARES = ['Clareza','Estrutura','Experiência','Evolução'];
-var PILAR_COLORS = ['#6c63ff','#f7971e','#ff6584','#43e97b'];
-var PILAR_ICONS = ['🎯','🏗️','⭐','🚀'];
+// ══ 5 PILARES OPERA™ ══
+var PILARES = ['Organização','Processos','Estruturação','Relacionamento','Acompanhamento'];
+var PILAR_KEYS = ['O','P','E','R','A'];
+var PILAR_COLORS = ['#0F4C5C','#1a6577','#2E8B57','#6B4CA0','#C0392B'];
+var PILAR_ICONS = ['🗂️','⚙️','🏛️','🤝','📊'];
 var PILAR_DESC = {
-  'Clareza':'Visão, posicionamento e precificação do negócio',
-  'Estrutura':'Processos, organização e gestão operacional',
-  'Experiência':'Atendimento, fidelização e reputação',
-  'Evolução':'Crescimento, automação e escala'
+  'Organização':'Clareza, prioridades e direcionamento estratégico',
+  'Processos':'Repetibilidade, padrões e redução de improvisos',
+  'Estruturação':'Recursos, ferramentas e organização operacional',
+  'Relacionamento':'Experiência do cliente e qualidade da comunicação',
+  'Acompanhamento':'Gestão, revisão e tomada de decisão baseada em dados'
 };
 
 var TOOLS = [
   {icon:'📅',nome:'Agendamento Digital 24h',status:'pending'},
   {icon:'💎',nome:'CRM de Fidelização',status:'pending'},
   {icon:'🌐',nome:'SmallBio - Página Inteligente',status:'pending'},
-  {icon:'📲',nome:'Catálogo de Serviços Digital',status:'pending'},
   {icon:'⚙️',nome:'Automações de Relacionamento',status:'pending'},
   {icon:'⭐',nome:'NPS & Reputação Digital',status:'pending'},
-  {icon:'💰',nome:'Gestão Financeira LUME',status:'pending'},
-  {icon:'👥',nome:'Gestão de Equipe & Comissão',status:'pending'},
+  {icon:'💰',nome:'Gestão Financeira',status:'pending'},
+  {icon:'👥',nome:'Gestão de Equipe',status:'pending'},
   {icon:'📱',nome:'Estratégia de Captação',status:'pending'},
-  {icon:'🧬',nome:'Metodologia LUME',status:'integrated'},
+  {icon:'🧬',nome:'Metodologia LUME OPERA',status:'integrated'},
 ];
 
+// ══ CHECKLIST 90 DIAS — 6 tarefas por pilar, por fase ══
+// Cada tarefa tem: pilar (O/P/E/R/A), fase (1/2/3), texto
 var CHECKLIST_TEMPLATE = [
-  // FASE 1 - DIAGNÓSTICO & ESTRUTURA BASE (0-30 dias)
-  {id:'c1', text:'Diagnóstico G.E.N.I.X. completo realizado e laudo entregue', phase:1, done:true},
-  {id:'c2', text:'Apresentação da Metodologia LUME e alinhamento de expectativas', phase:1, done:true},
-  {id:'c3', text:'Mapeamento dos serviços, preços e margem de lucro por procedimento', phase:1, done:false},
-  {id:'c4', text:'Organização da agenda: migração para sistema de agendamento digital', phase:1, done:false},
-  {id:'c5', text:'Configuração do sistema de confirmação e lembrete automático de atendimentos', phase:1, done:false},
-  {id:'c6', text:'Criação e publicação da SmallBio - página inteligente de links', phase:1, done:false},
-  {id:'c7', text:'Implantação do catálogo digital de serviços com fotos e preços', phase:1, done:false},
-  {id:'c8', text:'Cadastro e organização da base de clientes no CRM', phase:1, done:false},
-  // FASE 2 - PROCESSOS & AUTOMAÇÃO (30-60 dias)
-  {id:'c9', text:'Ativação do fluxo automático de boas-vindas para novos clientes', phase:2, done:false},
-  {id:'c10', text:'Configuração do pós-atendimento automático com pesquisa de satisfação (NPS)', phase:2, done:false},
-  {id:'c11', text:'Ativação do fluxo de reativação de clientes inativos (+60 dias)', phase:2, done:false},
-  {id:'c12', text:'Implantação do controle financeiro: DRE, fluxo de caixa e custo por procedimento', phase:2, done:false},
-  {id:'c13', text:'Estruturação do programa de fidelidade e retorno programado por serviço', phase:2, done:false},
-  {id:'c14', text:'Treinamento da equipe: atendimento, upsell e experiência do cliente', phase:2, done:false},
-  {id:'c15', text:'Configuração do sistema de comissão e meta por profissional', phase:2, done:false},
-  {id:'c16', text:'Ativação e otimização do Google Meu Negócio com estratégia de avaliações', phase:2, done:false},
-  // FASE 3 - CRESCIMENTO & ESCALA (60-90 dias)
-  {id:'c17', text:'Implantação do plano de captação: indicação estruturada e tráfego local', phase:3, done:false},
-  {id:'c18', text:'Revisão de precificação com base em dados reais de lucratividade', phase:3, done:false},
-  {id:'c19', text:'Avaliação de desempenho da equipe com base em KPIs definidos', phase:3, done:false},
-  {id:'c20', text:'Revisão e otimização de todos os fluxos de automação implantados', phase:3, done:false},
-  {id:'c21', text:'Análise dos KPIs: ticket médio, taxa de retorno, NPS e faturamento', phase:3, done:false},
-  {id:'c22', text:'Avaliação de maturidade - Score LUME revisado e plano de continuidade', phase:3, done:false},
+  // PILAR O — ORGANIZAÇÃO
+  {id:'o1',pilar:'O',phase:1,text:'Listar as 5 atividades que mais impactam o negócio',done:false},
+  {id:'o2',pilar:'O',phase:1,text:'Definir metas financeiras e operacionais dos próximos 90 dias',done:false},
+  {id:'o3',pilar:'O',phase:2,text:'Criar rotina semanal com blocos de tempo definidos',done:false},
+  {id:'o4',pilar:'O',phase:2,text:'Eliminar ou delegar 3 tarefas que não geram resultado direto',done:false},
+  {id:'o5',pilar:'O',phase:3,text:'Revisar e ajustar metas ao final de cada mês',done:false},
+  {id:'o6',pilar:'O',phase:3,text:'Implementar revisão semanal de 30 min toda segunda-feira',done:false},
+  // PILAR P — PROCESSOS
+  {id:'p1',pilar:'P',phase:1,text:'Mapear os 3 processos que mais geram retrabalho hoje',done:false},
+  {id:'p2',pilar:'P',phase:1,text:'Escrever o passo a passo do atendimento padrão ao cliente',done:false},
+  {id:'p3',pilar:'P',phase:2,text:'Criar checklist de abertura e fechamento do dia',done:false},
+  {id:'p4',pilar:'P',phase:2,text:'Padronizar comunicação com clientes (modelos de mensagem)',done:false},
+  {id:'p5',pilar:'P',phase:3,text:'Treinar equipe nos processos documentados',done:false},
+  {id:'p6',pilar:'P',phase:3,text:'Revisar e melhorar 1 processo por mês',done:false},
+  // PILAR E — ESTRUTURAÇÃO
+  {id:'e1',pilar:'E',phase:1,text:'Organizar senhas, documentos e arquivos em pasta digital',done:false},
+  {id:'e2',pilar:'E',phase:1,text:'Separar conta bancária pessoal da empresarial',done:false},
+  {id:'e3',pilar:'E',phase:2,text:'Implantar ferramenta de agendamento digital',done:false},
+  {id:'e4',pilar:'E',phase:2,text:'Criar catálogo de serviços com preços atualizado',done:false},
+  {id:'e5',pilar:'E',phase:3,text:'Estruturar controle de estoque mínimo',done:false},
+  {id:'e6',pilar:'E',phase:3,text:'Implementar controle financeiro mensal (entrada e saída)',done:false},
+  // PILAR R — RELACIONAMENTO
+  {id:'r1',pilar:'R',phase:1,text:'Criar modelo de mensagem de boas-vindas para novos clientes',done:false},
+  {id:'r2',pilar:'R',phase:1,text:'Solicitar avaliação no Google para os 10 clientes mais fiéis',done:false},
+  {id:'r3',pilar:'R',phase:2,text:'Criar fluxo de pós-atendimento (mensagem 24h depois)',done:false},
+  {id:'r4',pilar:'R',phase:2,text:'Contatar clientes inativos há mais de 60 dias',done:false},
+  {id:'r5',pilar:'R',phase:3,text:'Criar programa simples de fidelidade ou indicação',done:false},
+  {id:'r6',pilar:'R',phase:3,text:'Responder todas as avaliações do Google (positivas e negativas)',done:false},
+  // PILAR A — ACOMPANHAMENTO
+  {id:'a1',pilar:'A',phase:1,text:'Definir 3 indicadores simples para acompanhar mensalmente',done:false},
+  {id:'a2',pilar:'A',phase:1,text:'Criar planilha ou nota para registrar faturamento semanal',done:false},
+  {id:'a3',pilar:'A',phase:2,text:'Agendar 1h por semana para revisar números e decisões',done:false},
+  {id:'a4',pilar:'A',phase:2,text:'Comparar resultado real com as metas definidas',done:false},
+  {id:'a5',pilar:'A',phase:3,text:'Criar dashboard simples com os indicadores principais',done:false},
+  {id:'a6',pilar:'A',phase:3,text:'Fazer avaliação mensal: o que funcionou, o que mudar, o que manter',done:false},
 ];
 
 var PHASE_LABELS = {1:'0-30 dias',2:'30-60 dias',3:'60-90 dias'};
-var PHASE_NAMES = {1:'Estrutura Base',2:'Processos & Automação',3:'Crescimento & Escala'};
+var PHASE_NAMES = {1:'Diagnóstico & Base',2:'Implementação',3:'Consolidação & Escala'};
 
 var NIVEL_LUME = [
-  {max:30, label:'Fase de Estruturação', cor:'#ff6b6b'},
-  {max:50, label:'Desenvolvimento Ativo', cor:'#ff8c00'},
-  {max:70, label:'Alto Potencial', cor:'#1c8fec'},
-  {max:100, label:'Maturidade LUME', cor:'#51cf66'},
+  {max:39,  label:'Empreendimento Reativo',       cor:'#C0392B', bg:'rgba(192,57,43,.1)'},
+  {max:59,  label:'Em Organização',               cor:'#f7971e', bg:'rgba(247,151,30,.1)'},
+  {max:79,  label:'Empreendimento Estruturado',   cor:'#0F4C5C', bg:'rgba(15,76,92,.1)'},
+  {max:100, label:'Empreendimento Evolutivo',     cor:'#2E8B57', bg:'rgba(46,139,87,.1)'},
 ];
 
 // Sample data
@@ -926,25 +941,25 @@ var DEFAULT_CLIENTS = [
     id:'cl1', nome:'Ana Paula', empresa:'Studio Ana Beauty',
     email:'ana@studioana.com', senha:'ana123',
     whatsapp:'(34) 99801-1234', nicho:'salao',
-    metodologia:'lume', score:58, status:'active',
-    obs:'Foco em fidelização e automação de reativação. Agenda desorganizada.',
+    metodologia:'lume-start', score:58, status:'active',
+    obs:'Pilares P e A mais fracos. Foco em processos e acompanhamento.',
     startDate: new Date(Date.now()-35*24*60*60*1000).toISOString(),
-    pilares:{'Clareza':58,'Estrutura':52,'Experiência':62,'Evolução':48},
+    pilares:{'Organização':14,'Processos':10,'Estruturação':12,'Relacionamento':16,'Acompanhamento':10},
     scoreHistory:[32,38,45,52,58],
-    checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<4;return c;}),
-    tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i<2?'integrated':'pending';return t;})
+    checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<6;return c;}),
+    tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i===8?'integrated':'pending';return t;})
   },
   {
     id:'cl2', nome:'Carlos Ribeiro', empresa:'CR Consultoria',
     email:'carlos@crconsultoria.com', senha:'carlos123',
     whatsapp:'(34) 99700-5678', nicho:'clinica',
-    metodologia:'lume', score:42, status:'starting',
-    obs:'Foco em captação ativa e pipeline comercial.',
+    metodologia:'lume-start', score:42, status:'starting',
+    obs:'Score baixo em E e A. Início pelo pilar Estruturação.',
     startDate: new Date(Date.now()-12*24*60*60*1000).toISOString(),
-    pilares:{'Clareza':38,'Estrutura':35,'Experiência':45,'Evolução':40},
+    pilares:{'Organização':10,'Processos':9,'Estruturação':7,'Relacionamento':11,'Acompanhamento':8},
     scoreHistory:[28,35,42],
     checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)).map(function(c,i){c.done=i<2;return c;}),
-    tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i===6?'integrated':'pending';return t;})
+    tools: JSON.parse(JSON.stringify(TOOLS)).map(function(t,i){t.status=i===8?'integrated':'pending';return t;})
   }
 ];
 
@@ -1044,7 +1059,7 @@ function loadClientPanel(client) {
   document.getElementById('stat-tasks-done').textContent = tasksDone;
   document.getElementById('stat-tasks-pct').textContent = tasksPct+'% do plano';
   document.getElementById('stat-dias').textContent = diasNoPrograma;
-  document.getElementById('stat-pilares').textContent = Object.values(client.pilares).filter(function(v){return v>=50;}).length+'/4';
+  document.getElementById('stat-pilares').textContent = Object.values(client.pilares).filter(function(v){return v>=10;}).length+'/5';
   document.getElementById('stat-tools').textContent = toolsInt;
 
   // Ring animation
@@ -1063,9 +1078,9 @@ function loadClientPanel(client) {
   var pillarsHtml = '';
   PILARES.forEach(function(p,i){
     var v=client.pilares[p]||0;
-    var pct=v;
+    var pct=Math.round((v/20)*100);
     pillarsHtml+='<div class="pillar-item">'+
-      '<div class="pillar-head"><span class="pillar-name">'+PILAR_ICONS[i]+' '+p+'</span><span class="pillar-score">'+v+'/100</span></div>'+
+      '<div class="pillar-head"><span class="pillar-name">'+PILAR_ICONS[i]+' '+p+'</span><span class="pillar-score">'+v+'/20</span></div>'+
       '<div class="pillar-bar-bg"><div class="pillar-bar-fill" style="width:0%;background:'+PILAR_COLORS[i]+'" data-w="'+pct+'"></div></div>'+
     '</div>';
   });
@@ -1176,24 +1191,27 @@ function recalcularTodosScores() {
 
 function buildMetas(client) {
   var diasNoPrograma = Math.floor((Date.now()-new Date(client.startDate).getTime())/(24*60*60*1000));
+  var pilarScores = client.pilares || {};
+  var sorted = PILARES.map(function(p,i){return {nome:p,key:PILAR_KEYS[i],score:pilarScores[p]||10};}).sort(function(a,b){return a.score-b.score;});
+  var weakStr = sorted.slice(0,2).map(function(p){return 'Pilar '+p.key+' ('+p.nome+')';}).join(' e ');
   var phases = [
-    {num:1,title:'Estrutura Base (0-30 dias)',items:[
-      'Organizar agenda com sistema digital 24h',
-      'Cadastrar base de clientes no CRM',
-      'Criar catálogo de serviços e SmallBio',
-      'Mapeamento de precificação e margem por procedimento'
+    {num:1,title:'Diagnostico & Base (0-30 dias)',items:[
+      'Apresentacao do Metodo OPERA e diagnostico completo',
+      'Foco prioritario em: '+weakStr,
+      'Criar checklist de abertura e fechamento do dia',
+      'Definir 3 indicadores simples para acompanhar'
     ]},
-    {num:2,title:'Processos & Automação (30-60 dias)',items:[
-      'Ativar fluxos automáticos de boas-vindas e NPS',
-      'Implantar reativação de clientes inativos (+60 dias)',
-      'Estruturar controle financeiro por procedimento',
-      'Estruturação de comissão, metas e treinamento da equipe'
+    {num:2,title:'Implementacao (30-60 dias)',items:[
+      'Executar tarefas dos pilares prioritarios',
+      'Padronizar comunicacao com clientes (modelos de mensagem)',
+      'Implantar ferramenta de agendamento e controle financeiro',
+      'Revisao semanal de resultados e ajustes'
     ]},
-    {num:3,title:'Crescimento & Escala (60-90 dias)',items:[
-      'Plano de captação: indicação estruturada e tráfego local',
-      'Otimizar Google Meu Negócio e reputação digital',
-      'Revisar KPIs: ticket médio, NPS e taxa de retorno',
-      'Avaliação final de maturidade LUME e plano de continuidade'
+    {num:3,title:'Consolidacao & Escala (60-90 dias)',items:[
+      'Revisar todos os pilares e ajustar acoes',
+      'Implementar programa de fidelidade ou indicacao',
+      'Criar dashboard de acompanhamento dos indicadores',
+      'Avaliacao final OPERA e plano de continuidade'
     ]},
   ];
   var html = '';
@@ -1206,30 +1224,69 @@ function buildMetas(client) {
       '</div>'+
       '<div class="timeline-body">'+
         '<div class="timeline-title">'+ph.title+'</div>'+
-        '<div class="timeline-sub">'+ph.items.map(function(it){return '* '+it;}).join('<br>')+'</div>'+
+        '<div class="timeline-sub">'+ph.items.map(function(it){return '- '+it;}).join('<br>')+'</div>'+
       '</div>'+
     '</div>';
   });
   document.getElementById('client-timeline').innerHTML = html;
 }
 
+
 function buildChecklist(client) {
-  renderChecklist(client.checklist, 'todas');
+  renderChecklist(client.checklist, currentChecklistFilter, client);
 }
 
-function renderChecklist(items, filter) {
+function renderChecklist(items, filter, client) {
   var filtered = items;
   if(filter==='pendentes') filtered = items.filter(function(c){return !c.done;});
   if(filter==='concluidas') filtered = items.filter(function(c){return c.done;});
+
+  var pilarScores = (client || currentUser || {}).pilares || {};
+  var pilarOrder = PILARES.map(function(p,i){
+    return {nome:p, key:PILAR_KEYS[i], score:pilarScores[p]||10, icon:PILAR_ICONS[i], cor:PILAR_COLORS[i]};
+  }).sort(function(a,b){return a.score-b.score;}).map(function(p){return p.key;});
+
+  var PHASE_COLORS = {1:'rgba(15,76,92,.08)',2:'rgba(46,139,87,.08)',3:'rgba(107,76,160,.08)'};
+  var PHASE_TEXT = {1:'#0F4C5C',2:'#2E8B57',3:'#6B4CA0'};
   var html = '';
-  filtered.forEach(function(item){
-    html+='<div class="check-item'+(item.done?' done':'')+'" onclick="toggleCheck(\''+item.id+'\')">'+
-      '<div class="check-box"></div>'+
-      '<div><div class="check-text">'+item.text+'</div>'+
-      '<span class="check-phase phase-'+item.phase+'">Fase '+item.phase+' . '+PHASE_LABELS[item.phase]+'</span></div>'+
-    '</div>';
+
+  pilarOrder.forEach(function(pk, rankIdx) {
+    var pilarIdx = PILAR_KEYS.indexOf(pk);
+    var pilarNome = PILARES[pilarIdx];
+    var pilarIcon = PILAR_ICONS[pilarIdx];
+    var pilarCor = PILAR_COLORS[pilarIdx];
+    var pilarScore = pilarScores[pilarNome] || 10;
+    var pilarItems = filtered.filter(function(t){return t.pilar===pk;});
+    if(pilarItems.length === 0) return;
+
+    var isWeak = rankIdx < 2;
+    var weakLabel = isWeak ? '<span style="font-size:10px;background:'+pilarCor+'20;color:'+pilarCor+';padding:2px 8px;border-radius:100px;font-weight:700;margin-left:6px">PRIORIDADE</span>' : '';
+
+    html += '<div style="margin-bottom:22px">'+
+      '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:'+pilarCor+'12;border:1px solid '+pilarCor+'25;margin-bottom:10px">'+
+        '<span style="font-size:16px">'+pilarIcon+'</span>'+
+        '<span style="font-size:12px;font-weight:700;color:'+pilarCor+';letter-spacing:.04em;text-transform:uppercase">Pilar '+pk+' - '+pilarNome+'</span>'+
+        weakLabel+
+        '<span style="margin-left:auto;font-size:12px;font-weight:700;color:'+pilarCor+'">'+pilarScore+'/20</span>'+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">';
+
+    [1,2,3].forEach(function(fase){
+      var faseItems = pilarItems.filter(function(t){return t.phase===fase;});
+      if(faseItems.length===0) return;
+      html += '<div style="font-size:11px;font-weight:700;color:'+PHASE_TEXT[fase]+';letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;background:'+PHASE_COLORS[fase]+';border-radius:6px;margin:6px 0 4px;display:inline-block">'+PHASE_LABELS[fase]+'</div>';
+      faseItems.forEach(function(item){
+        html += '<div class="check-item'+(item.done?' done':'')+'" onclick="toggleCheck(\''+item.id+'\')">'+
+          '<div class="check-box">'+(item.done?'<span style="font-size:11px;color:var(--success);font-weight:700">✓</span>':'')+'</div>'+
+          '<div><div class="check-text">'+item.text+'</div></div>'+
+        '</div>';
+      });
+    });
+    html += '</div></div>';
   });
-  document.getElementById('checklist-container').innerHTML = html || '<div class="text-muted" style="padding:20px;text-align:center">Nenhuma tarefa nessa categoria.</div>';
+
+  if(!html) html = '<div style="text-align:center;padding:32px;color:var(--muted)">Nenhuma tarefa nessa categoria.</div>';
+  document.getElementById('checklist-container').innerHTML = html;
 }
 
 var currentChecklistFilter = 'todas';
@@ -1238,7 +1295,7 @@ function filterChecklist(f) {
   ['todas','pendentes','concluidas'].forEach(function(t){
     document.getElementById('ctab-'+t).classList.toggle('active',t===f);
   });
-  if(currentUser) renderChecklist(currentUser.checklist, f);
+  if(currentUser) renderChecklist(currentUser.checklist, f, currentUser);
 }
 
 function calcularScoreAutomatico(client) {
@@ -1382,21 +1439,51 @@ function notifyClient(taskText, clientNome, clientWhatsApp, tasksPct) {
   window.open('https://wa.me/'+whatsapp+'?text='+encodeURIComponent(msg), '_blank');
 }
 
+// Mapeia eixos do assessment (Clareza/Estrutura/etc) para OPERA
+function mapEixosToOpera(eixos) {
+  // Se já tem formato OPERA, retorna direto
+  if (eixos['Organização'] !== undefined) return eixos;
+  // Mapeia LUME 4 pilares -> OPERA 5 pilares (estimativa)
+  var c = eixos['Clareza']||40;
+  var e = eixos['Estrutura']||40;
+  var ex = eixos['Experiência']||40;
+  var ev = eixos['Evolução']||40;
+  function scale(v){ return Math.round((v/100)*20); }
+  return {
+    'Organização': scale(c),
+    'Processos': scale((e+ev)/2),
+    'Estruturação': scale(e),
+    'Relacionamento': scale(ex),
+    'Acompanhamento': scale(ev)
+  };
+}
+
 function buildPilares(client) {
+  var pilares = client.pilares || {};
+  // Sort by score to show weakest first (prioridade)
+  var sorted = PILARES.map(function(p,i){
+    return {nome:p, key:PILAR_KEYS[i], icon:PILAR_ICONS[i], cor:PILAR_COLORS[i], score:pilares[p]||0, desc:PILAR_DESC[p]};
+  }).sort(function(a,b){return a.score-b.score;});
+
   var html = '';
-  PILARES.forEach(function(p,i){
-    var v = client.pilares[p]||0;
-    var pct = v;
-    var desc = PILAR_DESC[p] || '';
-    html+='<div class="card">'+
-      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'+
-        '<div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:18px">'+PILAR_ICONS[i]+'</div>'+
-        '<div><div style="font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:var(--text)">'+p+'</div>'+
-        '<div style="font-size:12px;color:var(--muted)">Pilar LUME</div></div>'+
-        '<div style="margin-left:auto;font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:'+PILAR_COLORS[i]+'">'+v+'<span style="font-size:13px;color:var(--muted)">/100</span></div>'+
+  sorted.forEach(function(p, idx){
+    var pct = Math.round((p.score/20)*100);
+    var isWeak = idx < 2;
+    var weakBorder = isWeak ? 'border:1.5px solid '+p.cor+'40;' : '';
+    var weakTag = isWeak ? '<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;background:'+p.cor+'15;color:'+p.cor+';margin-left:8px">PRIORIDADE</span>' : '';
+    html += '<div class="card" style="'+weakBorder+'margin-bottom:14px">'+
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">'+
+        '<div style="width:36px;height:36px;border-radius:10px;background:'+p.cor+'15;display:flex;align-items:center;justify-content:center;font-size:18px">'+p.icon+'</div>'+
+        '<div style="flex:1"><div style="font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center">'+
+          'Pilar '+p.key+' — '+p.nome+weakTag+
+        '</div>'+
+        '<div style="font-size:12px;color:var(--muted)">'+p.desc+'</div></div>'+
+        '<div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:'+p.cor+'">'+p.score+'<span style="font-size:13px;color:var(--muted)">/20</span></div>'+
       '</div>'+
-      '<div class="pillar-bar-bg" style="margin-bottom:12px"><div style="height:6px;width:'+pct+'%;background:'+PILAR_COLORS[i]+';border-radius:100px;transition:width 1s"></div></div>'+
-      '<div style="font-size:13px;color:var(--muted);line-height:1.55">'+desc+'</div>'+
+      '<div style="height:6px;background:var(--bg2);border-radius:100px;margin-bottom:8px">'+
+        '<div style="height:100%;width:'+pct+'%;background:'+p.cor+';border-radius:100px;transition:width 1s"></div>'+
+      '</div>'+
+      '<div style="font-size:12px;color:var(--muted)">'+(isWeak?'Foco prioritário nos primeiros 30 dias do programa.':pct+'% de maturidade neste pilar')+'</div>'+
     '</div>';
   });
   document.getElementById('pilares-detail').innerHTML = html;
@@ -1616,10 +1703,11 @@ function editClient(id) {
   document.getElementById('f-client-score').value = c.score;
   document.getElementById('f-client-status').value = c.status;
   document.getElementById('f-client-obs').value = c.obs;
-  document.getElementById('fp-clareza').value = c.pilares['Clareza']||40;
-  document.getElementById('fp-estrutura').value = c.pilares['Estrutura']||40;
-  document.getElementById('fp-experiencia').value = c.pilares['Experiência']||40;
-  document.getElementById('fp-evolucao').value = c.pilares['Evolução']||40;
+  document.getElementById('fp-O').value = c.pilares['Organização']||10;
+  document.getElementById('fp-P').value = c.pilares['Processos']||10;
+  document.getElementById('fp-E').value = c.pilares['Estruturação']||10;
+  document.getElementById('fp-R').value = c.pilares['Relacionamento']||10;
+  document.getElementById('fp-A').value = c.pilares['Acompanhamento']||10;
 }
 
 function deleteClient(id) {
@@ -1649,10 +1737,11 @@ function salvarCliente() {
     obs: document.getElementById('f-client-obs').value,
     startDate: editingClientId ? (getClientById(editingClientId)||{}).startDate||new Date().toISOString() : new Date().toISOString(),
     pilares: {
-      'Clareza': parseInt(document.getElementById('fp-clareza').value)||40,
-      'Estrutura': parseInt(document.getElementById('fp-estrutura').value)||40,
-      'Experiência': parseInt(document.getElementById('fp-experiencia').value)||40,
-      'Evolução': parseInt(document.getElementById('fp-evolucao').value)||40,
+      'Organização': parseInt(document.getElementById('fp-O').value)||10,
+      'Processos': parseInt(document.getElementById('fp-P').value)||10,
+      'Estruturação': parseInt(document.getElementById('fp-E').value)||10,
+      'Relacionamento': parseInt(document.getElementById('fp-R').value)||10,
+      'Acompanhamento': parseInt(document.getElementById('fp-A').value)||10,
     },
     scoreHistory: editingClientId ? (getClientById(editingClientId)||{}).scoreHistory||[parseInt(document.getElementById('f-client-score').value)||40] : [parseInt(document.getElementById('f-client-score').value)||40],
     checklist: editingClientId ? (getClientById(editingClientId)||{}).checklist||JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)) : JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)),
@@ -1675,8 +1764,8 @@ function clearClientForm() {
     var el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('f-client-score').value = '';
-  ['fp-clareza','fp-estrutura','fp-experiencia','fp-evolucao'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.value='40';
+  ['fp-O','fp-P','fp-E','fp-R','fp-A'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='10';
   });
 }
 
@@ -1879,7 +1968,7 @@ function importLeadsFromSheets() {
       nome: 'Lead Teste', empresa: 'Empresa Exemplo', email: 'lead@teste.com',
       whatsapp: '(34) 99999-0000', nicho: 'salao', score: 52,
       perfil: 'Profissional em Ascensão', potencial: 68,
-      eixos: {'Clareza':55,'Estrutura':48,'Experiência':58,'Evolução':46}
+      eixos: {'Organização':14,'Processos':12,'Estruturação':12,'Relacionamento':15,'Acompanhamento':11}
     });
   } else {
     var parts = csv.split(',');
@@ -1981,8 +2070,8 @@ function ativarConta() {
       status: 'starting',
       obs: 'Ativado via assessment G.E.N.I.X. . Perfil: ' + (lead.perfil||'-'),
       startDate: new Date().toISOString(),
-      pilares: lead.eixos && Object.keys(lead.eixos).length > 0 ? lead.eixos : {
-        'Clareza':40,'Estrutura':40,'Experiência':40,'Evolução':40
+      pilares: lead.eixos && Object.keys(lead.eixos).length > 0 ? mapEixosToOpera(lead.eixos) : {
+        'Organização':10,'Processos':10,'Estruturação':10,'Relacionamento':10,'Acompanhamento':10
       },
       scoreHistory: [lead.score || 40],
       checklist: JSON.parse(JSON.stringify(CHECKLIST_TEMPLATE)),
