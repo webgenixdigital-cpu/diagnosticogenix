@@ -1,542 +1,1798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUME™ START — Diagnóstico OPERA™</title>
+<style>
+/* ══════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:#F7F8FA;
+  color:#2F3E46;
+  min-height:100vh;
+  line-height:1.6;
+}
+
+/* ══════════════════════════════════════════
+   CSS VARIABLES
+══════════════════════════════════════════ */
+:root{
+  --petrol:#0F4C5C;
+  --petrol-dark:#0a3540;
+  --petrol-light:#1a6577;
+  --grafite:#2F3E46;
+  --cinza:#D9D9D9;
+  --cinza-light:#F0F2F4;
+  --cinza-mid:#B0B8BD;
+  --verde:#2E8B57;
+  --verde-light:#3aad6e;
+  --branco:#FFFFFF;
+  --text-muted:#6B7C85;
+  --border:#E2E8EB;
+  --shadow:0 2px 12px rgba(15,76,92,.08);
+  --shadow-md:0 4px 24px rgba(15,76,92,.12);
+  --shadow-lg:0 8px 40px rgba(15,76,92,.15);
+  --radius:12px;
+  --radius-lg:20px;
+}
+
+/* ══════════════════════════════════════════
+   SCREENS
+══════════════════════════════════════════ */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.container{
+  max-width:720px;
+  margin:0 auto;
+  padding:0 20px;
+}
+.container-wide{max-width:960px;margin:0 auto;padding:0 20px;}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.site-header{
+  background:var(--branco);
+  border-bottom:1px solid var(--border);
+  padding:18px 0;
+  position:sticky;top:0;z-index:100;
+}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:960px;margin:0 auto;padding:0 20px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;text-decoration:none;
+}
+.logo-mark{
+  width:36px;height:36px;
+  background:var(--petrol);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:900;color:#fff;
+  letter-spacing:-.5px;
+  font-family:'Segoe UI',sans-serif;
+}
+.logo-text{line-height:1.2;}
+.logo-name{
+  font-size:15px;font-weight:700;color:var(--grafite);
+  letter-spacing:.02em;
+}
+.logo-sub{font-size:11px;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase;}
+.header-badge{
+  font-size:11px;font-weight:600;
+  color:var(--petrol);
+  background:rgba(15,76,92,.08);
+  padding:5px 12px;border-radius:100px;
+  letter-spacing:.04em;
+}
+
+/* ══════════════════════════════════════════
+   INTRO SCREEN
+══════════════════════════════════════════ */
+#screen-intro{padding:60px 0 80px;}
+
+.intro-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--petrol);
+  background:rgba(15,76,92,.07);
+  padding:6px 14px;border-radius:100px;
+  margin-bottom:24px;
+}
+.intro-tag::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--petrol);
+}
+
+.intro-title{
+  font-size:clamp(28px,4.5vw,44px);
+  font-weight:700;
+  color:var(--grafite);
+  line-height:1.15;
+  margin-bottom:16px;
+  letter-spacing:-.02em;
+}
+.intro-title span{color:var(--petrol);}
+
+.intro-desc{
+  font-size:17px;color:var(--text-muted);
+  line-height:1.7;max-width:540px;margin-bottom:36px;
+}
+
+.intro-stats{
+  display:flex;gap:32px;flex-wrap:wrap;
+  margin-bottom:44px;
+  padding:24px;
+  background:var(--branco);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+.stat-item{}
+.stat-num{
+  font-size:28px;font-weight:700;color:var(--petrol);
+  letter-spacing:-.02em;line-height:1;
+  margin-bottom:3px;
+}
+.stat-label{font-size:12px;color:var(--text-muted);font-weight:500;}
+
+.pillars-preview{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+  margin-bottom:40px;
+}
+@media(max-width:600px){.pillars-preview{grid-template-columns:repeat(2,1fr) 1fr;}}
+.pillar-preview-item{
+  background:var(--branco);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px 12px;
+  text-align:center;
+  transition:all .2s;
+}
+.pillar-preview-item:hover{border-color:var(--petrol);transform:translateY(-2px);box-shadow:var(--shadow);}
+.pillar-preview-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(15,76,92,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin:0 auto 8px;
+}
+.pillar-preview-letter{
+  font-size:11px;font-weight:700;color:var(--petrol);letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:2px;
+}
+.pillar-preview-name{font-size:12px;color:var(--text-muted);}
+
+.form-lead{
+  background:var(--branco);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:32px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+}
+.form-lead-title{
+  font-size:17px;font-weight:600;color:var(--grafite);
+  margin-bottom:20px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{
+  font-size:12px;font-weight:600;color:var(--grafite);
+  letter-spacing:.02em;text-transform:uppercase;
+}
+.form-input{
+  width:100%;
+  background:var(--cinza-light);
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  padding:11px 14px;
+  font-size:14px;color:var(--grafite);
+  font-family:inherit;
+  outline:none;transition:all .2s;
+}
+.form-input:focus{
+  border-color:var(--petrol);
+  background:var(--branco);
+  box-shadow:0 0 0 3px rgba(15,76,92,.1);
+}
+.form-input::placeholder{color:var(--cinza-mid);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 32px;border-radius:var(--radius);
+  font-family:inherit;font-size:15px;font-weight:600;
+  border:none;cursor:pointer;transition:all .22s;
+  letter-spacing:.01em;
+}
+.btn-primary{
+  background:var(--petrol);color:var(--branco);
+  box-shadow:0 4px 16px rgba(15,76,92,.3);
+}
+.btn-primary:hover{background:var(--petrol-dark);box-shadow:0 6px 24px rgba(15,76,92,.4);transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.btn-secondary{
+  background:transparent;color:var(--petrol);
+  border:1.5px solid var(--petrol);
+}
+.btn-secondary:hover{background:rgba(15,76,92,.06);}
+.btn-full{width:100%;}
+.btn-lg{padding:17px 40px;font-size:16px;}
+.btn-icon{font-size:18px;}
+
+/* ══════════════════════════════════════════
+   QUIZ SCREEN
+══════════════════════════════════════════ */
+#screen-quiz{padding:36px 0 80px;}
+
+.quiz-header{margin-bottom:32px;}
+.quiz-pilar-bar{
+  display:flex;gap:6px;margin-bottom:24px;
+}
+.pilar-segment{
+  flex:1;height:4px;border-radius:100px;
+  background:var(--cinza);
+  transition:background .4s;
+}
+.pilar-segment.done{background:var(--verde);}
+.pilar-segment.active{background:var(--petrol);}
+
+.progress-info{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.progress-label{font-size:13px;color:var(--text-muted);}
+.progress-pct{font-size:13px;font-weight:600;color:var(--petrol);}
+.progress-bar-bg{height:3px;background:var(--cinza);border-radius:100px;overflow:hidden;margin-bottom:24px;}
+.progress-bar-fill{height:100%;background:var(--petrol);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:100px;}
+
+.pilar-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:8px;
+  margin-bottom:16px;
+  font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+}
+.q-num{
+  font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500;
+}
+.q-text{
+  font-size:19px;font-weight:600;color:var(--grafite);
+  line-height:1.45;margin-bottom:28px;
+  letter-spacing:-.01em;
+}
+
+/* SCALE */
+.scale-wrap{margin-bottom:32px;}
+.scale-labels{
+  display:flex;justify-content:space-between;
+  margin-bottom:12px;
+  font-size:11px;color:var(--text-muted);font-weight:500;
+}
+.scale-options{
+  display:flex;gap:8px;
+}
+@media(max-width:500px){.scale-options{gap:5px;}}
+.scale-btn{
+  flex:1;aspect-ratio:1;
+  background:var(--branco);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .18s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;
+  font-family:inherit;
+}
+.scale-btn:hover{border-color:var(--petrol);background:rgba(15,76,92,.04);}
+.scale-btn.selected{
+  background:var(--petrol);border-color:var(--petrol);
+  box-shadow:0 4px 14px rgba(15,76,92,.25);
+}
+.scale-num{
+  font-size:20px;font-weight:700;color:var(--grafite);
+  line-height:1;transition:color .18s;
+}
+.scale-btn.selected .scale-num{color:var(--branco);}
+.scale-word{
+  font-size:9px;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.04em;
+  transition:color .18s;
+}
+@media(max-width:400px){.scale-word{display:none;}}
+.scale-btn.selected .scale-word{color:rgba(255,255,255,.7);}
+
+.scale-feedback{
+  margin-top:12px;height:20px;
+  font-size:13px;color:var(--petrol);font-weight:500;
+  text-align:center;transition:opacity .2s;
+  opacity:0;
+}
+.scale-feedback.visible{opacity:1;}
+
+.quiz-nav{
+  display:flex;gap:12px;justify-content:space-between;
+  align-items:center;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+}
+.quiz-nav-left{}
+.quiz-nav-right{display:flex;gap:10px;}
+
+/* ══════════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════════ */
+#screen-loading{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:80vh;text-align:center;
+  padding:40px 20px;
+}
+.loading-spinner{
+  width:52px;height:52px;
+  border:3px solid var(--cinza);
+  border-top-color:var(--petrol);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:0 auto 24px;
+}
+.loading-title{
+  font-size:22px;font-weight:600;color:var(--grafite);
+  margin-bottom:8px;
+}
+.loading-sub{font-size:14px;color:var(--text-muted);}
+
+/* ══════════════════════════════════════════
+   RESULT SCREEN
+══════════════════════════════════════════ */
+#screen-result{padding:40px 0 80px;}
+
+/* RESULT HEADER */
+.result-header{
+  background:var(--petrol);
+  color:var(--branco);
+  border-radius:var(--radius-lg);
+  padding:40px;
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
+}
+.result-header::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:rgba(255,255,255,.04);
+}
+.result-header::after{
+  content:'';position:absolute;
+  bottom:-40px;left:-40px;
+  width:160px;height:160px;
+  border-radius:50%;
+  background:rgba(255,255,255,.03);
+}
+.result-header-inner{position:relative;z-index:1;}
+.result-meta{
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.result-info{}
+.result-greeting{
+  font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.result-name{
+  font-size:26px;font-weight:700;
+  letter-spacing:-.02em;margin-bottom:4px;
+}
+.result-empresa{font-size:15px;color:rgba(255,255,255,.7);}
+.result-score-wrap{text-align:center;flex-shrink:0;}
+.result-score-num{
+  font-size:64px;font-weight:800;
+  line-height:1;letter-spacing:-.03em;
+}
+.result-score-max{
+  font-size:20px;font-weight:400;
+  color:rgba(255,255,255,.5);
+}
+.result-score-label{
+  font-size:12px;color:rgba(255,255,255,.55);
+  letter-spacing:.06em;text-transform:uppercase;
+  margin-top:4px;
+}
+
+.classification-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;padding:10px 20px;
+  border-radius:8px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:14px;font-weight:600;
+  backdrop-filter:blur(4px);
+}
+.classification-dot{width:8px;height:8px;border-radius:50%;background:#fff;}
+
+/* CARDS GRID */
+.cards-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:18px;margin-bottom:18px;
+}
+@media(max-width:600px){.cards-grid{grid-template-columns:1fr;}}
+
+.result-card{
+  background:var(--branco);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:28px;
+  box-shadow:var(--shadow);
+}
+.result-card.full{grid-column:1/-1;}
+.result-card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:22px;
+}
+.result-card-title{
+  font-size:15px;font-weight:600;color:var(--grafite);
+  display:flex;align-items:center;gap:8px;
+}
+.result-card-title .icon{
+  width:28px;height:28px;border-radius:7px;
+  background:rgba(15,76,92,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+
+/* RADAR */
+.radar-wrap{
+  display:flex;flex-direction:column;align-items:center;
+}
+#radar-svg{max-width:280px;width:100%;}
+
+/* PILLAR BARS */
+.pillar-bars{display:flex;flex-direction:column;gap:16px;}
+.pillar-bar-item{}
+.pillar-bar-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:7px;
+}
+.pillar-bar-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;color:var(--grafite);
+}
+.pillar-bar-icon{
+  width:24px;height:24px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;
+  color:var(--branco);
+}
+.pillar-bar-score{
+  font-size:13px;font-weight:700;color:var(--petrol);
+}
+.pillar-bar-bg{
+  height:8px;background:var(--cinza-light);
+  border-radius:100px;overflow:hidden;
+}
+.pillar-bar-fill{
+  height:100%;border-radius:100px;
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+/* HIGHLIGHT LISTS */
+.highlight-list{display:flex;flex-direction:column;gap:10px;}
+.highlight-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--cinza-light);
+}
+.highlight-rank{
+  width:24px;height:24px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--branco);
+  flex-shrink:0;
+}
+.highlight-info{flex:1;}
+.highlight-name{font-size:14px;font-weight:600;color:var(--grafite);}
+.highlight-score{font-size:12px;color:var(--text-muted);margin-top:1px;}
+.highlight-pill{
+  font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:100px;
+  flex-shrink:0;
+}
+
+/* DIAGNOSIS */
+.diagnosis-text{
+  font-size:15px;color:var(--text-muted);
+  line-height:1.8;
+}
+.diagnosis-text strong{color:var(--grafite);}
+
+/* RECOMMENDATIONS */
+.recommendations{display:flex;flex-direction:column;gap:14px;}
+.rec-item{
+  display:flex;gap:14px;
+  padding:16px;border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--branco);
+}
+.rec-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(15,76,92,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;margin-top:1px;
+}
+.rec-body{}
+.rec-title{font-size:14px;font-weight:600;color:var(--grafite);margin-bottom:3px;}
+.rec-desc{font-size:13px;color:var(--text-muted);line-height:1.55;}
+
+/* CTA */
+.cta-card{
+  background:var(--grafite);
+  border-radius:var(--radius-lg);
+  padding:40px;
+  text-align:center;
+  color:var(--branco);
+  position:relative;overflow:hidden;
+}
+.cta-card::before{
+  content:'';position:absolute;
+  top:-80px;right:-80px;
+  width:240px;height:240px;border-radius:50%;
+  background:rgba(15,76,92,.3);
+}
+.cta-inner{position:relative;z-index:1;}
+.cta-tag{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:16px;
+}
+.cta-title{
+  font-size:clamp(20px,3vw,28px);font-weight:700;
+  letter-spacing:-.02em;margin-bottom:12px;
+}
+.cta-desc{
+  font-size:15px;color:rgba(255,255,255,.65);
+  line-height:1.7;max-width:500px;margin:0 auto 28px;
+}
+.cta-bullets{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:28px;
+}
+.cta-bullet{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:100px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  font-size:13px;font-weight:500;
+}
+.cta-bullet::before{content:'✓';color:var(--verde-light);}
+.btn-white{
+  background:var(--branco);color:var(--grafite);
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+.btn-white:hover{background:#f0f2f4;transform:translateY(-1px);}
+.cta-restart{
+  margin-top:16px;
+  font-size:13px;color:rgba(255,255,255,.4);
+  cursor:pointer;text-decoration:underline;
+  background:none;border:none;
+  font-family:inherit;
+}
+.cta-restart:hover{color:rgba(255,255,255,.6);}
+
+/* ══════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════ */
+.hidden{display:none;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════ */
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.fade-in{animation:fadeUp .45s ease both;}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:768px){
+  .result-header{padding:28px 24px;}
+  .result-meta{flex-direction:column;}
+  .result-score-wrap{text-align:left;}
+  .result-card{padding:22px 18px;}
+  .cta-card{padding:28px 20px;}
+  #screen-intro{padding:40px 0 60px;}
+  .intro-stats{gap:20px;}
+  .pillars-preview{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:440px){
+  .site-header .header-badge{display:none;}
+  .intro-title{font-size:26px;}
+  .q-text{font-size:17px;}
+  .result-score-num{font-size:52px;}
+}
+
+/* ══════════════════════════════════════════
+   PRINT (para salvar como PDF)
+══════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   CHECKLIST 90 DIAS
+══════════════════════════════════════════ */
+.checklist-section{margin-bottom:24px;}
+.phase-block{margin-bottom:20px;}
+.phase-header{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-radius:10px;
+  margin-bottom:12px;font-size:13px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.checklist-items{display:flex;flex-direction:column;gap:8px;}
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 16px;border-radius:10px;
+  background:var(--cinza-light);border:1px solid var(--border);
+  cursor:pointer;transition:all .18s;
+  user-select:none;
+}
+.check-item:hover{background:var(--branco);border-color:var(--petrol);}
+.check-item.checked{background:rgba(46,139,87,.06);border-color:rgba(46,139,87,.3);}
+.check-box{
+  width:20px;height:20px;border-radius:6px;
+  border:1.5px solid var(--cinza-mid);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;transition:all .18s;
+  font-size:11px;color:transparent;
+  background:var(--branco);
+}
+.check-item.checked .check-box{
+  background:var(--verde);border-color:var(--verde);
+  color:#fff;
+}
+.check-info{flex:1;}
+.check-text{
+  font-size:14px;color:var(--grafite);line-height:1.4;
+  transition:color .18s;
+}
+.check-item.checked .check-text{
+  text-decoration:line-through;color:var(--text-muted);
+}
+.check-pilar{
+  font-size:11px;font-weight:600;color:var(--text-muted);
+  margin-top:3px;
+}
+.checklist-progress{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.checklist-progress-label{font-size:13px;color:var(--text-muted);}
+.checklist-progress-num{font-size:13px;font-weight:700;color:var(--petrol);}
+.checklist-progress-bar{
+  height:4px;background:var(--cinza);border-radius:100px;overflow:hidden;
+  margin-bottom:20px;
+}
+.checklist-progress-fill{
+  height:100%;background:var(--verde);border-radius:100px;
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+
+/* ══════════════════════════════════════════
+   LIVROS POR PILAR
+══════════════════════════════════════════ */
+.books-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
+}
+.book-card{
+  background:var(--cinza-light);border:1px solid var(--border);
+  border-radius:12px;padding:16px;transition:all .2s;
+}
+.book-card:hover{background:var(--branco);border-color:var(--petrol);transform:translateY(-2px);box-shadow:var(--shadow);}
+.book-pilar-tag{
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+  display:inline-block;margin-bottom:10px;
+}
+.book-title{font-size:14px;font-weight:600;color:var(--grafite);margin-bottom:4px;line-height:1.35;}
+.book-author{font-size:12px;color:var(--text-muted);margin-bottom:8px;}
+.book-why{font-size:12px;color:var(--text-muted);line-height:1.5;}
+
+@media print{
+  .site-header,.quiz-nav,.cta-card,.check-item{display:none!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">L</div>
+      <div class="logo-text">
+        <div class="logo-name">LUME™ START</div>
+        <div class="logo-sub">Método OPERA™</div>
+      </div>
+    </div>
+    <div class="header-badge" id="header-badge">Diagnóstico Empresarial</div>
+  </div>
+</header>
+
+<!-- ════════════ INTRO ════════════ -->
+<div class="screen active" id="screen-intro">
+  <div class="container" style="padding-top:52px;padding-bottom:80px;">
+    <div class="intro-tag">Diagnóstico Gratuito</div>
+    <h1 class="intro-title">
+      Descubra em que ponto<br>sua empresa <span>realmente está</span>
+    </h1>
+    <p class="intro-desc">
+      Um diagnóstico empresarial honesto, baseado no Método OPERA™.
+      Em menos de 5 minutos você entende onde focar para crescer com estrutura.
+    </p>
+
+    <div class="intro-stats">
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Pilares analisados</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">20</div>
+        <div class="stat-label">Perguntas objetivas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Níveis de maturidade</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Gratuito</div>
+      </div>
+    </div>
+
+    <div class="pillars-preview">
+      <div class="pillar-preview-item">
+        <div class="pillar-preview-icon">🗂️</div>
+        <div class="pillar-preview-letter">O</div>
+        <div class="pillar-preview-name">Organização</div>
+      </div>
+      <div class="pillar-preview-item">
+        <div class="pillar-preview-icon">⚙️</div>
+        <div class="pillar-preview-letter">P</div>
+        <div class="pillar-preview-name">Processos</div>
+      </div>
+      <div class="pillar-preview-item">
+        <div class="pillar-preview-icon">🏛️</div>
+        <div class="pillar-preview-letter">E</div>
+        <div class="pillar-preview-name">Estruturação</div>
+      </div>
+      <div class="pillar-preview-item">
+        <div class="pillar-preview-icon">🤝</div>
+        <div class="pillar-preview-letter">R</div>
+        <div class="pillar-preview-name">Relacionamento</div>
+      </div>
+      <div class="pillar-preview-item">
+        <div class="pillar-preview-icon">📊</div>
+        <div class="pillar-preview-letter">A</div>
+        <div class="pillar-preview-name">Acompanhamento</div>
+      </div>
+    </div>
+
+    <div class="form-lead">
+      <div class="form-lead-title">Antes de começar, se apresente</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Seu Nome</label>
+          <input class="form-input" type="text" id="f-nome" placeholder="Ex: Carlos Mendes">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome da Empresa</label>
+          <input class="form-input" type="text" id="f-empresa" placeholder="Ex: Studio Zen">
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp</label>
+          <input class="form-input" type="tel" id="f-whatsapp" placeholder="(11) 99999-9999">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input class="form-input" type="email" id="f-email" placeholder="seu@email.com">
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" onclick="iniciar()">
+        <span>Iniciar Diagnóstico</span>
+        <span class="btn-icon">→</span>
+      </button>
+    </div>
+
+    <p style="font-size:12px;color:var(--text-muted);text-align:center;">
+      Seus dados são confidenciais e utilizados apenas para personalizar o seu diagnóstico.
+    </p>
+  </div>
+</div>
+
+<!-- ════════════ QUIZ ════════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="container" style="padding-top:32px;">
+
+    <!-- Pilar segments bar -->
+    <div class="quiz-pilar-bar">
+      <div class="pilar-segment" id="seg-0"></div>
+      <div class="pilar-segment" id="seg-1"></div>
+      <div class="pilar-segment" id="seg-2"></div>
+      <div class="pilar-segment" id="seg-3"></div>
+      <div class="pilar-segment" id="seg-4"></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-info">
+      <span class="progress-label" id="prog-label">Pergunta 1 de 20</span>
+      <span class="progress-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+
+    <!-- Question card -->
+    <div id="q-card" class="fade-in"></div>
+
+    <!-- Navigation -->
+    <div class="quiz-nav">
+      <div class="quiz-nav-left">
+        <button class="btn btn-secondary" id="btn-prev" onclick="prevQ()" style="display:none">
+          ← Anterior
+        </button>
+      </div>
+      <div class="quiz-nav-right">
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>
+          Próxima →
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ LOADING ════════════ -->
+<div class="screen" id="screen-loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-title" id="loading-text">Processando suas respostas...</div>
+  <div class="loading-sub">Gerando seu diagnóstico OPERA™ personalizado</div>
+</div>
+
+<!-- ════════════ RESULT ════════════ -->
+<div class="screen" id="screen-result">
+  <div class="container-wide" style="padding-top:32px;">
+
+    <!-- Score header -->
+    <div class="result-header fade-in">
+      <div class="result-header-inner">
+        <div class="result-meta">
+          <div class="result-info">
+            <div class="result-greeting">Diagnóstico OPERA™</div>
+            <div class="result-name" id="res-nome">—</div>
+            <div class="result-empresa" id="res-empresa">—</div>
+            <div class="classification-badge" id="res-classification">
+              <div class="classification-dot"></div>
+              <span id="res-class-text">—</span>
+            </div>
+          </div>
+          <div class="result-score-wrap">
+            <div class="result-score-num">
+              <span id="res-score">0</span><span class="result-score-max">/100</span>
+            </div>
+            <div class="result-score-label">Pontuação Geral</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Radar + Bars -->
+    <div class="cards-grid">
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">
+            <div class="icon">📊</div>
+            Radar OPERA™
+          </div>
+        </div>
+        <div class="radar-wrap">
+          <svg id="radar-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">
+            <div class="icon">📈</div>
+            Score por Pilar
+          </div>
+        </div>
+        <div class="pillar-bars" id="pillar-bars"></div>
+      </div>
+    </div>
+
+    <!-- Diagnosis -->
+    <div class="result-card full fade-in" style="margin-bottom:18px;">
+      <div class="result-card-header">
+        <div class="result-card-title">
+          <div class="icon">📋</div>
+          Diagnóstico Empresarial
+        </div>
+      </div>
+      <div class="diagnosis-text" id="diagnosis-text"></div>
+    </div>
+
+    <!-- Strengths + Gaps -->
+    <div class="cards-grid">
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">
+            <div class="icon">💪</div>
+            Pontos Fortes
+          </div>
+        </div>
+        <div class="highlight-list" id="strengths-list"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">
+            <div class="icon">🎯</div>
+            Prioridades de Evolução
+          </div>
+        </div>
+        <div class="highlight-list" id="gaps-list"></div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="result-card full fade-in" style="margin-bottom:18px;">
+      <div class="result-card-header">
+        <div class="result-card-title">
+          <div class="icon">🧭</div>
+          Recomendações LUME™ START
+        </div>
+      </div>
+      <div class="recommendations" id="recommendations"></div>
+    </div>
+
+    <!-- Checklist 90 dias -->
+    <div class="result-card full fade-in" style="margin-bottom:18px;">
+      <div class="result-card-header">
+        <div class="result-card-title">
+          <div class="icon">✅</div>
+          Plano de Ação — 90 Dias
+        </div>
+      </div>
+      <div class="checklist-progress">
+        <span class="checklist-progress-label">Tarefas concluídas</span>
+        <span class="checklist-progress-num" id="check-count">0 / 30</span>
+      </div>
+      <div class="checklist-progress-bar">
+        <div class="checklist-progress-fill" id="check-bar" style="width:0%"></div>
+      </div>
+      <div id="checklist-container"></div>
+    </div>
+
+    <!-- Livros por Pilar -->
+    <div class="result-card full fade-in" style="margin-bottom:18px;">
+      <div class="result-card-header">
+        <div class="result-card-title">
+          <div class="icon">📚</div>
+          Leituras Recomendadas por Pilar
+        </div>
+      </div>
+      <div class="books-grid" id="books-grid"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-card fade-in">
+      <div class="cta-inner">
+        <div class="cta-tag">Próximo Passo</div>
+        <h2 class="cta-title">Seu diagnóstico revelou o caminho.<br>O LUME™ START te leva até lá.</h2>
+        <p class="cta-desc">
+          O checklist de implementação, o acompanhamento estratégico e as ferramentas certas
+          fazem parte do programa LUME™ START — aplicado pelo time especializado no seu negócio.
+        </p>
+        <div class="cta-bullets">
+          <div class="cta-bullet">Plano de ação por pilar</div>
+          <div class="cta-bullet">Acompanhamento estratégico</div>
+          <div class="cta-bullet">Ferramentas integradas</div>
+          <div class="cta-bullet">Método OPERA™ aplicado</div>
+        </div>
+        <button class="btn btn-white btn-lg" onclick="ctaWhatsApp()">
+          Quero começar o LUME™ START →
+        </button>
+        <br>
+        <button class="cta-restart" onclick="reiniciar()">Refazer o diagnóstico</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <script>
-// ═══════════════════════════════════════════
-// PERGUNTAS - 20 questões, 4 pilares LUME
-// A=0, B=2, C=5
-// ═══════════════════════════════════════════
-var PILARES_INFO = [
-  {key:'clareza',   nome:'Clareza',    icon:'🎯', cor:'#6c63ff', desc:'Visão, posicionamento e precificação do negócio'},
-  {key:'estrutura', nome:'Estrutura',  icon:'🏗️', cor:'#f7971e', desc:'Processos, organização e gestão operacional'},
-  {key:'experiencia',nome:'Experiência',icon:'⭐', cor:'#ff6584', desc:'Atendimento, fidelização e reputação'},
-  {key:'evolucao',  nome:'Evolução',   icon:'🚀', cor:'#43e97b', desc:'Crescimento, automação e escala'},
+// ══════════════════════════════════════════
+// INTEGRAÇÃO — Google Sheets + LUME Panel
+// ══════════════════════════════════════════
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyHWaN1ds2ekbq4lgXAbZ67qT9AygbtPanlgSV5lvF4JfKN-Yr5hH9FX3zIH_1xz32eUQ/exec';
+var WHATSAPP = '5535987096476';
+
+function salvarLead(dadosExtra) {
+  var calc = calcularScores();
+  var ps = calc.pilarScores;
+  var classif = getClassificacao(calc.total);
+
+  // Mapeamento OPERA -> LUME 4 pilares (escala 0-100)
+  function scale(val) { return Math.round(((val - 4) / 16) * 100); }
+  var eixos = {
+    'Clareza':    scale(ps[0]),
+    'Estrutura':  Math.round((scale(ps[1]) + scale(ps[2])) / 2),
+    'Experiência':scale(ps[3]),
+    'Evolução':   scale(ps[4])
+  };
+
+  var payload = {
+    nome: state.nome,
+    empresa: state.empresa,
+    email: state.email,
+    whatsapp: state.whatsapp,
+    nicho: 'opera',
+    score: calc.total,
+    perfil: classif.nome,
+    potencial: Math.min(100, calc.total + 15),
+    pilarO: ps[0], pilarP: ps[1], pilarE: ps[2], pilarR: ps[3], pilarA: ps[4],
+    classificacao: classif.nome,
+    data: new Date().toLocaleDateString('pt-BR'),
+  };
+
+  // 1. Google Sheets
+  if (SHEETS_URL) {
+    fetch(SHEETS_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    }).catch(function(e) { console.warn('Sheets error:', e); });
+  }
+
+  // 2. localStorage — sincroniza com LUME Panel
+  try {
+    var leads = JSON.parse(localStorage.getItem('lume_leads') || '[]');
+    var exists = leads.findIndex(function(l) {
+      return l.email === state.email || l.whatsapp === state.whatsapp;
+    });
+    var lead = {
+      id: exists >= 0 ? leads[exists].id : 'lead_' + Date.now(),
+      nome: state.nome,
+      empresa: state.empresa,
+      email: state.email,
+      whatsapp: state.whatsapp,
+      nicho: 'opera',
+      score: calc.total,
+      perfil: classif.nome,
+      potencial: Math.min(100, calc.total + 15),
+      eixos: eixos,
+      pilarScoresOPERA: {O: ps[0], P: ps[1], E: ps[2], R: ps[3], A: ps[4]},
+      date: new Date().toISOString(),
+      status: 'pending',
+      activationToken: null
+    };
+    if (exists >= 0) { leads[exists] = lead; } else { leads.push(lead); }
+    localStorage.setItem('lume_leads', JSON.stringify(leads));
+  } catch(e) { console.warn('localStorage error:', e); }
+}
+
+// ══════════════════════════════════════════
+// PLANO DE AÇÃO — 90 DIAS (6 tarefas x 5 pilares)
+// ══════════════════════════════════════════
+var CHECKLIST = [
+  // PILAR O — Organização
+  {id:'o1', pilar:'O', fase:1, text:'Listar as 5 atividades que mais impactam seu negócio'},
+  {id:'o2', pilar:'O', fase:1, text:'Definir e escrever suas metas dos próximos 90 dias'},
+  {id:'o3', pilar:'O', fase:2, text:'Criar uma rotina semanal com blocos de tempo definidos'},
+  {id:'o4', pilar:'O', fase:2, text:'Eliminar ou delegar 3 tarefas que tomam seu tempo mas não geram resultado'},
+  {id:'o5', pilar:'O', fase:3, text:'Revisar e ajustar suas metas ao final de cada mês'},
+  {id:'o6', pilar:'O', fase:3, text:'Implementar revisão semanal de 30 minutos toda segunda-feira'},
+  // PILAR P — Processos
+  {id:'p1', pilar:'P', fase:1, text:'Mapear os 3 processos que mais geram retrabalho hoje'},
+  {id:'p2', pilar:'P', fase:1, text:'Escrever o passo a passo do atendimento padrão ao cliente'},
+  {id:'p3', pilar:'P', fase:2, text:'Criar um checklist de abertura e fechamento do dia'},
+  {id:'p4', pilar:'P', fase:2, text:'Padronizar a comunicação com clientes (modelos de mensagem)'},
+  {id:'p5', pilar:'P', fase:3, text:'Treinar equipe nos processos documentados'},
+  {id:'p6', pilar:'P', fase:3, text:'Revisar e melhorar 1 processo por mês'},
+  // PILAR E — Estruturação
+  {id:'e1', pilar:'E', fase:1, text:'Organizar todas as senhas, documentos e arquivos em uma pasta digital'},
+  {id:'e2', pilar:'E', fase:1, text:'Separar conta bancária pessoal da empresarial'},
+  {id:'e3', pilar:'E', fase:2, text:'Implantar ferramenta de agendamento digital'},
+  {id:'e4', pilar:'E', fase:2, text:'Criar catálogo de serviços com preços atualizado'},
+  {id:'e5', pilar:'E', fase:3, text:'Estruturar controle de estoque mínimo'},
+  {id:'e6', pilar:'E', fase:3, text:'Implementar controle financeiro mensal simples (entrada e saída)'},
+  // PILAR R — Relacionamento
+  {id:'r1', pilar:'R', fase:1, text:'Criar modelo de mensagem de boas-vindas para novos clientes'},
+  {id:'r2', pilar:'R', fase:1, text:'Pedir avaliação no Google para os 10 clientes mais fiéis'},
+  {id:'r3', pilar:'R', fase:2, text:'Criar um fluxo de pós-atendimento (mensagem 24h depois)'},
+  {id:'r4', pilar:'R', fase:2, text:'Ligar ou mandar mensagem para clientes que não aparecem há 60 dias'},
+  {id:'r5', pilar:'R', fase:3, text:'Criar programa simples de fidelidade ou indicação'},
+  {id:'r6', pilar:'R', fase:3, text:'Responder todas as avaliações do Google (positivas e negativas)'},
+  // PILAR A — Acompanhamento
+  {id:'a1', pilar:'A', fase:1, text:'Definir 3 indicadores simples para acompanhar mensalmente'},
+  {id:'a2', pilar:'A', fase:1, text:'Criar planilha ou nota para registrar faturamento semanal'},
+  {id:'a3', pilar:'A', fase:2, text:'Agendar 1h por semana para revisar números e decisões'},
+  {id:'a4', pilar:'A', fase:2, text:'Comparar resultado real com a meta definida no pilar O'},
+  {id:'a5', pilar:'A', fase:3, text:'Criar dashboard simples com os indicadores principais'},
+  {id:'a6', pilar:'A', fase:3, text:'Fazer avaliação mensal: o que funcionou, o que mudar, o que manter'},
 ];
 
-var PERGUNTAS = [
-  // PILAR 1: CLAREZA (5 perguntas)
-  {pilar:0,q:'Você tem clareza sobre qual é o seu cliente ideal e onde ele está?',opts:[
-    {l:'A',t:'Não sei definir com clareza quem é meu cliente ideal',p:0},
-    {l:'B',t:'Tenho uma ideia geral, mas não defini com precisão',p:2},
-    {l:'C',t:'Sim, tenho meu cliente ideal bem definido com perfil detalhado',p:5}]},
-  {pilar:0,q:'Seu posicionamento de mercado está claro para os clientes?',opts:[
-    {l:'A',t:'Não me diferencio da concorrência',p:0},
-    {l:'B',t:'Tenho alguns diferenciais mas não comunico bem',p:2},
-    {l:'C',t:'Meu posicionamento é claro e reconhecido pelos clientes',p:5}]},
-  {pilar:0,q:'Como você define seus preços?',opts:[
-    {l:'A',t:'Baseado no que a concorrência cobra, sem calcular custos',p:0},
-    {l:'B',t:'Calculo os custos mas não incluo minha margem de lucro desejada',p:2},
-    {l:'C',t:'Preço baseado em custo + margem + valor percebido',p:5}]},
-  {pilar:0,q:'Você sabe quais são os 3 serviços mais lucrativos do seu negócio?',opts:[
-    {l:'A',t:'Não tenho essa informação',p:0},
-    {l:'B',t:'Tenho uma ideia mas sem dados precisos',p:2},
-    {l:'C',t:'Sim, sei exatamente quais são e por quê',p:5}]},
-  {pilar:0,q:'Você tem metas financeiras definidas para o seu negócio?',opts:[
-    {l:'A',t:'Não tenho metas, vivo o dia a dia',p:0},
-    {l:'B',t:'Tenho uma meta de faturamento na cabeça mas nao registro',p:2},
-    {l:'C',t:'Tenho metas documentadas com indicadores de acompanhamento',p:5}]},
-  // PILAR 2: ESTRUTURA (5 perguntas)
-  {pilar:1,q:'Como é gerenciada sua agenda de atendimentos?',opts:[
-    {l:'A',t:'WhatsApp ou telefone sem organização',p:0},
-    {l:'B',t:'Agenda física ou planilha básica',p:2},
-    {l:'C',t:'Sistema digital com confirmação e lembrete automático',p:5}]},
-  {pilar:1,q:'Você tem controle financeiro do seu negócio?',opts:[
-    {l:'A',t:'Não separo finanças pessoais das do negócio',p:0},
-    {l:'B',t:'Separo as contas mas não tenho controle detalhado',p:2},
-    {l:'C',t:'DRE, fluxo de caixa e custo por serviço organizado',p:5}]},
-  {pilar:1,q:'Sua equipe tem processos e metas bem definidos?',opts:[
-    {l:'A',t:'Cada um trabalha do seu jeito sem padronização',p:0},
-    {l:'B',t:'Tenho algumas orientações mas nao formalizadas',p:2},
-    {l:'C',t:'Processos documentados, metas e avaliação de desempenho',p:5}]},
-  {pilar:1,q:'Como você controla o estoque de produtos?',opts:[
-    {l:'A',t:'Compro quando percebo que acabou',p:0},
-    {l:'B',t:'Anoto manualmente o que esta faltando',p:2},
-    {l:'C',t:'Controle sistematizado com ponto de reposição definido',p:5}]},
-  {pilar:1,q:'Você tem um cardápio ou catálogo de serviços organizado?',opts:[
-    {l:'A',t:'Explico verbalmente ou mando foto no WhatsApp',p:0},
-    {l:'B',t:'Tenho uma lista impressa ou PDF desatualizado',p:2},
-    {l:'C',t:'Catálogo digital atualizado com fotos, descrições e preços',p:5}]},
-  // PILAR 3: EXPERIÊNCIA (5 perguntas)
-  {pilar:2,q:'Como você coleta e acompanha a satisfação dos clientes?',opts:[
-    {l:'A',t:'Não meço satisfação formalmente',p:0},
-    {l:'B',t:'Pergunto pessoalmente mas sem registro',p:2},
-    {l:'C',t:'NPS ou pesquisa automatica apos cada atendimento',p:5}]},
-  {pilar:2,q:'Você tem estratégia para fazer clientes voltarem?',opts:[
-    {l:'A',t:'Espero o cliente ligar quando quiser voltar',p:0},
-    {l:'B',t:'As vezes mando mensagem manual para alguns clientes',p:2},
-    {l:'C',t:'Retorno programado automatico e historico de cada cliente',p:5}]},
-  {pilar:2,q:'Como é sua presença digital para novos clientes?',opts:[
-    {l:'A',t:'So Instagram basico sem estrategia',p:0},
-    {l:'B',t:'Instagram ativo mais link na bio simples',p:2},
-    {l:'C',t:'Pagina inteligente com agendamento, catalogo e avaliacoes',p:5}]},
-  {pilar:2,q:'Você reativa clientes que não voltam há mais de 60 dias?',opts:[
-    {l:'A',t:'Nao faço nada, espero eles retornarem',p:0},
-    {l:'B',t:'As vezes entro em contato manualmente',p:2},
-    {l:'C',t:'Fluxo automatico de reativacao com mensagens personalizadas',p:5}]},
-  {pilar:2,q:'Como são as avaliações do seu negócio no Google?',opts:[
-    {l:'A',t:'Nao tenho ou raramente recebo avaliacoes',p:0},
-    {l:'B',t:'Tenho algumas avaliacoes mas nao gerencio ativamente',p:2},
-    {l:'C',t:'Estrategia ativa de captacao e resposta de avaliacoes',p:5}]},
-  // PILAR 4: EVOLUÇÃO (5 perguntas)
-  {pilar:3,q:'Você usa automações no seu negócio?',opts:[
-    {l:'A',t:'Nao uso nenhuma automacao',p:0},
-    {l:'B',t:'So resposta automatica basica no WhatsApp',p:2},
-    {l:'C',t:'Fluxos completos de boas-vindas, pos-atendimento e reativacao',p:5}]},
-  {pilar:3,q:'Como você capta novos clientes ativamente?',opts:[
-    {l:'A',t:'So indicacao boca a boca, nao faço captacao ativa',p:0},
-    {l:'B',t:'Posts esporadicos no Instagram sem estrategia',p:2},
-    {l:'C',t:'Estrategia multicanal com trafego, indicacao estruturada e Google',p:5}]},
-  {pilar:3,q:'Você investe em capacitação técnica e de gestão?',opts:[
-    {l:'A',t:'Raramente ou nunca',p:0},
-    {l:'B',t:'Eventualmente quando surge oportunidade',p:2},
-    {l:'C',t:'Programa continuo de atualizacao tecnica e gestao',p:5}]},
-  {pilar:3,q:'Você acompanha indicadores e métricas do negócio?',opts:[
-    {l:'A',t:'Nao acompanho metricas formalmente',p:0},
-    {l:'B',t:'Acompanho faturamento mas pouco mais',p:2},
-    {l:'C',t:'Dashboard com ticket medio, taxa de retorno, NPS e outros KPIs',p:5}]},
-  {pilar:3,q:'Qual é sua visão de crescimento para os próximos 12 meses?',opts:[
-    {l:'A',t:'Manter como esta, estou sobrecarregado',p:0},
-    {l:'B',t:'Crescer organicamente sem mudancas grandes',p:2},
-    {l:'C',t:'Escalar com metodo, tecnologia e possivelmente nova unidade',p:5}]},
+var FASES_LABEL = {1:'0 a 30 dias', 2:'30 a 60 dias', 3:'60 a 90 dias'};
+var FASES_COR = {1:'rgba(15,76,92,.1)', 2:'rgba(46,139,87,.1)', 3:'rgba(107,76,160,.1)'};
+var FASES_TEXT = {1:'#0F4C5C', 2:'#2E8B57', 3:'#6B4CA0'};
+
+var checkState = {};
+
+function buildChecklist() {
+  // Init state
+  CHECKLIST.forEach(function(c) { if (checkState[c.id] === undefined) checkState[c.id] = false; });
+
+  var html = '';
+  [1, 2, 3].forEach(function(fase) {
+    html += '<div class="phase-block">' +
+      '<div class="phase-header" style="background:' + FASES_COR[fase] + ';color:' + FASES_TEXT[fase] + '">' +
+        '<span>📅</span> Fase ' + fase + ' — ' + FASES_LABEL[fase] +
+      '</div>' +
+      '<div class="checklist-items">';
+    CHECKLIST.filter(function(c) { return c.fase === fase; }).forEach(function(item) {
+      var pilar = PILARES.find(function(p) { return p.key === item.pilar; });
+      var checked = checkState[item.id] ? 'checked' : '';
+      html += '<div class="check-item ' + checked + '" onclick="toggleCheck(\'' + item.id + '\')" id="ci-' + item.id + '">' +
+        '<div class="check-box">' + (checkState[item.id] ? '✓' : '') + '</div>' +
+        '<div class="check-info">' +
+          '<div class="check-text">' + item.text + '</div>' +
+          '<div class="check-pilar">' + pilar.icon + ' Pilar ' + item.pilar + ' — ' + pilar.nome + '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div></div>';
+  });
+
+  document.getElementById('checklist-container').innerHTML = html;
+  updateCheckProgress();
+}
+
+function toggleCheck(id) {
+  checkState[id] = !checkState[id];
+  var el = document.getElementById('ci-' + id);
+  if (el) {
+    el.classList.toggle('checked', checkState[id]);
+    el.querySelector('.check-box').textContent = checkState[id] ? '✓' : '';
+  }
+  updateCheckProgress();
+}
+
+function updateCheckProgress() {
+  var total = CHECKLIST.length;
+  var done = Object.values(checkState).filter(Boolean).length;
+  var pct = Math.round((done / total) * 100);
+  document.getElementById('check-count').textContent = done + ' / ' + total;
+  document.getElementById('check-bar').style.width = pct + '%';
+}
+
+// ══════════════════════════════════════════
+// LIVROS POR PILAR
+// ══════════════════════════════════════════
+var LIVROS = [
+  // Pilar O — Organização
+  {pilar:'O', titulo:'A Semana de 4 Horas', autor:'Timothy Ferriss',
+   why:'Como redesenhar sua rotina e focar no que realmente importa.'},
+  {pilar:'O', titulo:'Essencialismo', autor:'Greg McKeown',
+   why:'A disciplina de fazer menos, porém melhor — aplicado ao negócio.'},
+  {pilar:'O', titulo:'O Mito do Empreendedor', autor:'Michael E. Gerber',
+   why:'Por que a maioria dos negócios falha e como construir um sistema.'},
+  // Pilar P — Processos
+  {pilar:'P', titulo:'Trabalhe 4 Horas por Semana', autor:'Timothy Ferriss',
+   why:'Sistemas que substituem a presença constante do dono.'},
+  {pilar:'P', titulo:'A Meta', autor:'Eliyahu M. Goldratt',
+   why:'Identificar e eliminar os gargalos que travam seu fluxo.'},
+  {pilar:'P', titulo:'Checklist: Como Fazer as Coisas Certas', autor:'Atul Gawande',
+   why:'O poder dos checklists para reduzir erros e padronizar.'},
+  // Pilar E — Estruturação
+  {pilar:'E', titulo:'Tração', autor:'Gino Wickman',
+   why:'Como estruturar sua empresa com clareza, foco e responsabilidade.'},
+  {pilar:'E', titulo:'Scaling Up', autor:'Verne Harnish',
+   why:'Ferramentas práticas para crescer sem perder o controle.'},
+  {pilar:'E', titulo:'O Negócio do Século XXI', autor:'Robert Kiyosaki',
+   why:'Construir ativos reais e estrutura que trabalhe por você.'},
+  // Pilar R — Relacionamento
+  {pilar:'R', titulo:'Como Fazer Amigos e Influenciar Pessoas', autor:'Dale Carnegie',
+   why:'Comunicação, empatia e relacionamento como vantagem competitiva.'},
+  {pilar:'R', titulo:'A Bíblia das Vendas', autor:'Jeffrey Gitomer',
+   why:'Como criar clientes fiéis que indicam espontaneamente.'},
+  {pilar:'R', titulo:'Satisfação Garantida', autor:'Tony Hsieh',
+   why:'Como a cultura de atendimento transforma um negócio.'},
+  // Pilar A — Acompanhamento
+  {pilar:'A', titulo:'Avance', autor:'Patrick Lencioni',
+   why:'Reuniões e revisões que geram resultados reais.'},
+  {pilar:'A', titulo:'Números que Importam', autor:'Jack Stack',
+   why:'Gestão a vista: como usar indicadores para decisões melhores.'},
+  {pilar:'A', titulo:'OKRs — Objectives and Key Results', autor:'John Doerr',
+   why:'Metas mensuráveis que movem sua empresa na direção certa.'},
 ];
 
-// ═══ 8 PERFIS DE MATURIDADE ═══
-var PERFIS = [
-  {min:0,  max:14, nome:'Iniciante Potencial', emoji:'🌱', sub:'Negócio em fase inicial de estruturação', cor:'#ff6584',
-   tags:['Grande potencial','Base a construir','Momento de decisão'],
-   desc:'Seu negócio tem potencial, mas ainda depende muito da sua presença e de processos informais. Este é o momento ideal para construir uma base sólida.',
-   risco:'O risco é continuar crescendo sem estrutura e atingir um teto de esgotamento físico e financeiro.'},
-  {min:15, max:24, nome:'Construtor Ativo', emoji:'🔨', sub:'Primeiros processos sendo implementados', cor:'#f7971e',
-   tags:['Em construção','Resultados iniciais','Precisa de método'],
-   desc:'Você já deu os primeiros passos e tem alguns processos funcionando. A falta de método consistente ainda limita seus resultados.',
-   risco:'O risco é investir em ferramentas isoladas sem uma estratégia integrada, gerando custo sem retorno.'},
-  {min:25, max:34, nome:'Estruturador em Progresso', emoji:'🏗️', sub:'Estrutura básica existente, mas incompleta', cor:'#f7971e',
-   tags:['Base estruturada','Lacunas críticas','Crescimento possível'],
-   desc:'Você tem uma estrutura básica funcionando. Existem lacunas importantes que impedem o crescimento consistente.',
-   risco:'O risco é continuar no modo reativo, apagando incêndios em vez de construir sistemas escaláveis.'},
-  {min:35, max:49, nome:'Profissional em Ascensão', emoji:'📈', sub:'Negócio profissional com boas práticas', cor:'#6c63ff',
-   tags:['Profissional','Em crescimento','Pronto para acelerar'],
-   desc:'Seu negócio já tem uma operação profissional com bons processos. O próximo passo é integrar e automatizar para escalar.',
-   risco:'O risco é crescer sem automação e controle, gerando sobrecarga operacional que limita a expansão.'},
-  {min:50, max:64, nome:'Gestor Estratégico', emoji:'🎯', sub:'Gestão sólida com foco em resultados', cor:'#6c63ff',
-   tags:['Gestão avançada','KPIs definidos','Alta performance'],
-   desc:'Você tem uma gestão estratégica com indicadores e processos bem definidos. O foco agora é otimização e escala.',
-   risco:'O risco é a complacência - não inovar e perder posição para concorrentes mais ágeis.'},
-  {min:65, max:74, nome:'Acelerador de Resultados', emoji:'⚡', sub:'Alta performance operacional e comercial', cor:'#43e97b',
-   tags:['Alta performance','Processos maduros','Escalável'],
-   desc:'Seu negócio opera com alta performance. Você tem processos maduros e resultados consistentes.',
-   risco:'O risco é não ter um plano de expansão claro, perdendo oportunidades de crescimento exponencial.'},
-  {min:75, max:89, nome:'Lider de Mercado', emoji:'🏆', sub:'Referência no segmento com operação avançada', cor:'#43e97b',
-   tags:['Referência','Operação avançada','Expansão em vista'],
-   desc:'Você é uma referência no mercado com operação avançada, cultura forte e resultados excepcionais.',
-   risco:'O risco é não documentar e replicar seu modelo, limitando o crescimento para múltiplas unidades.'},
-  {min:90, max:100, nome:'Visionário LUME', emoji:'💎', sub:'Excelência máxima - modelo a ser replicado', cor:'#f7971e',
-   tags:['Excelência máxima','Modelo replicável','Pronto para franquia'],
-   desc:'Parabéns! Você atingiu o nível máximo de maturidade. Seu negócio é um modelo de excelência e está pronto para ser replicado.',
-   risco:'O risco é não documentar seu conhecimento e perder vantagem competitiva na expansão.'},
+function buildBooks() {
+  var html = '';
+  LIVROS.forEach(function(livro) {
+    var pilar = PILARES.find(function(p) { return p.key === livro.pilar; });
+    html += '<div class="book-card">' +
+      '<div class="book-pilar-tag" style="background:' + pilar.cor + '18;color:' + pilar.cor + '">' +
+        pilar.icon + ' Pilar ' + pilar.key + ' — ' + pilar.nome +
+      '</div>' +
+      '<div class="book-title">' + livro.titulo + '</div>' +
+      '<div class="book-author">' + livro.autor + '</div>' +
+      '<div class="book-why">' + livro.why + '</div>' +
+    '</div>';
+  });
+  document.getElementById('books-grid').innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+
+var PILARES = [
+  {
+    key:'O', nome:'Organização', icon:'🗂️', cor:'#0F4C5C',
+    desc:'Clareza, prioridades e direcionamento',
+    perguntas:[
+      'Tenho clareza sobre as prioridades atuais da minha empresa.',
+      'Sei exatamente quais atividades geram mais impacto no meu negócio.',
+      'Possuo objetivos definidos para os próximos meses.',
+      'Minha rotina de trabalho é organizada e previsível.'
+    ]
+  },
+  {
+    key:'P', nome:'Processos', icon:'⚙️', cor:'#1a6577',
+    desc:'Repetibilidade e redução de improvisos',
+    perguntas:[
+      'As atividades mais importantes da empresa seguem um padrão definido.',
+      'Os erros recorrentes são identificados e corrigidos.',
+      'Minha equipe sabe como executar as atividades principais.',
+      'Existem poucos retrabalhos no dia a dia.'
+    ]
+  },
+  {
+    key:'E', nome:'Estruturação', icon:'🏛️', cor:'#2E8B57',
+    desc:'Recursos, ferramentas e organização operacional',
+    perguntas:[
+      'As informações importantes da empresa são facilmente encontradas.',
+      'Utilizo ferramentas adequadas para apoiar minha gestão.',
+      'Minha rotina administrativa está organizada.',
+      'Os recursos da empresa estão estruturados para sustentar o crescimento.'
+    ]
+  },
+  {
+    key:'R', nome:'Relacionamento', icon:'🤝', cor:'#6B4CA0',
+    desc:'Experiência do cliente e qualidade da comunicação',
+    perguntas:[
+      'Meus clientes recebem respostas rápidas e claras.',
+      'Existe um processo consistente de atendimento.',
+      'Realizo ações de relacionamento após o atendimento.',
+      'Recebo feedbacks positivos com frequência.'
+    ]
+  },
+  {
+    key:'A', nome:'Acompanhamento', icon:'📊', cor:'#C0392B',
+    desc:'Gestão, revisão e tomada de decisão',
+    perguntas:[
+      'Acompanho regularmente os indicadores do meu negócio.',
+      'Reservo tempo para revisar resultados e decisões.',
+      'Consigo identificar rapidamente problemas na operação.',
+      'Possuo metas e planos definidos para os próximos 90 dias.'
+    ]
+  }
 ];
 
-var BEAUTY_SEGS = {
-  salao:'Salão de Beleza', clinica:'Clínica Estética',
-  beauty:'Beauty Design', barbearia:'Barbearia',
-  spa:'Spa & Bem-estar', studio:'Studio Especializado'
+var ESCALA = ['Nunca', 'Raramente', 'Às vezes', 'Frequentemente', 'Sempre'];
+
+var CLASSIFICACOES = [
+  {
+    min:20, max:39,
+    nome:'Empreendimento Reativo',
+    emoji:'🔴',
+    desc:'A empresa depende fortemente do esforço diário e possui baixa previsibilidade.'
+  },
+  {
+    min:40, max:59,
+    nome:'Empreendimento em Organização',
+    emoji:'🟡',
+    desc:'Existem iniciativas positivas, porém ainda há inconsistências importantes.'
+  },
+  {
+    min:60, max:79,
+    nome:'Empreendimento Estruturado',
+    emoji:'🔵',
+    desc:'A empresa apresenta processos e práticas de gestão relativamente consolidados.'
+  },
+  {
+    min:80, max:100,
+    nome:'Empreendimento Evolutivo',
+    emoji:'🟢',
+    desc:'A empresa possui uma base sólida de organização, gestão e melhoria contínua.'
+  }
+];
+
+var RECOMENDACOES = {
+  O: {
+    titulo:'Iniciar pelo Pilar O — Organização',
+    desc:'Seu negócio precisa de mais clareza de prioridades e objetivos. O Pilar O do LUME™ START vai te ajudar a criar foco, definir metas e organizar sua rotina de forma que o dia a dia pare de te controlar.'
+  },
+  P: {
+    titulo:'Iniciar pelo Pilar P — Processos',
+    desc:'O improviso ainda domina sua operação. O Pilar P do LUME™ START vai padronizar suas atividades principais, reduzir erros e retrabalhos, e fazer sua equipe ganhar autonomia real.'
+  },
+  E: {
+    titulo:'Iniciar pelo Pilar E — Estruturação',
+    desc:'Sua base operacional precisa de atenção. O Pilar E do LUME™ START vai organizar suas ferramentas, rotinas e recursos para que a empresa tenha estrutura real para crescer.'
+  },
+  R: {
+    titulo:'Iniciar pelo Pilar R — Relacionamento',
+    desc:'A experiência do seu cliente pode ser potencializada. O Pilar R do LUME™ START vai criar processos de atendimento, comunicação e pós-venda que geram fidelização e indicações espontâneas.'
+  },
+  A: {
+    titulo:'Iniciar pelo Pilar A — Acompanhamento',
+    desc:'Seu negócio precisa de uma gestão mais intencional. O Pilar A do LUME™ START vai te ajudar a definir indicadores, revisar resultados e tomar decisões com base em dados reais.'
+  }
 };
 
-// ═══ STATE ═══
-var state = {nome:'',empresa:'',whatsapp:'',email:'',seg:null,qIdx:0,respostas:{},_score:0};
+// Diagnósticos textuais por faixa de score
+var DIAGNOSTICOS = {
+  reativo: function(nome, top3, weak3) {
+    return '<strong>' + nome + '</strong>, seu diagnóstico mostra que a empresa ainda está em fase de organização inicial. ' +
+      'O esforço diário é grande, mas há pouca previsibilidade nos resultados. ' +
+      'Os pilares de <strong>' + weak3[0].nome + '</strong> e <strong>' + weak3[1].nome + '</strong> precisam de atenção imediata. ' +
+      'A boa notícia é que há muito espaço para crescer e o LUME™ START foi feito exatamente para essa fase.';
+  },
+  organizacao: function(nome, top3, weak3) {
+    return '<strong>' + nome + '</strong>, você já deu os primeiros passos e tem iniciativas positivas em andamento. ' +
+      'Seus pontos mais fortes estão em <strong>' + top3[0].nome + '</strong> e <strong>' + top3[1].nome + '</strong>. ' +
+      'Porém, as inconsistências nos pilares de <strong>' + weak3[0].nome + '</strong> ainda limitam seu crescimento. ' +
+      'Com método e foco, você pode passar para o próximo nível rapidamente.';
+  },
+  estruturado: function(nome, top3, weak3) {
+    return '<strong>' + nome + '</strong>, sua empresa já apresenta maturidade em vários aspectos. ' +
+      'Você se destaca em <strong>' + top3[0].nome + '</strong>, <strong>' + top3[1].nome + '</strong> e <strong>' + top3[2].nome + '</strong>. ' +
+      'O foco agora é fortalecer os pilares de <strong>' + weak3[0].nome + '</strong> e <strong>' + weak3[1].nome + '</strong> ' +
+      'para consolidar uma operação verdadeiramente escalável.';
+  },
+  evolutivo: function(nome, top3, weak3) {
+    return '<strong>' + nome + '</strong>, parabéns! Sua empresa está no nível mais alto de maturidade do Método OPERA™. ' +
+      'Você tem uma base sólida em todos os pilares, com destaque para <strong>' + top3[0].nome + '</strong> e <strong>' + top3[1].nome + '</strong>. ' +
+      'O desafio agora é manter a consistência, inovar e escalar. ' +
+      'Mesmo nesse nível, o Pilar <strong>' + weak3[0].nome + '</strong> ainda pode ser aprimorado.';
+  }
+};
 
-// ═══ FUNÇÕES ═══
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
-  document.getElementById('screen-'+id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+var state = {
+  nome: '', empresa: '', whatsapp: '', email: '',
+  qIdx: 0,
+  respostas: [], // array de 20 valores (1-5)
+};
+
+// Build flat question list
+var QUESTOES = [];
+PILARES.forEach(function(pilar, pi) {
+  pilar.perguntas.forEach(function(q, qi) {
+    QUESTOES.push({ pilar: pi, pilarKey: pilar.key, texto: q });
+  });
+});
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  var el = document.getElementById('screen-' + id);
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function selSeg(el,seg){
-  state.seg=seg;
-  document.querySelectorAll('#seg-grid .seg-btn').forEach(function(b){b.classList.remove('active');});
-  el.classList.add('active');
+// ══════════════════════════════════════════
+// INTRO
+// ══════════════════════════════════════════
+function iniciar() {
+  state.nome = document.getElementById('f-nome').value.trim() || 'Empresário(a)';
+  state.empresa = document.getElementById('f-empresa').value.trim() || 'Minha Empresa';
+  state.whatsapp = document.getElementById('f-whatsapp').value.trim();
+  state.email = document.getElementById('f-email').value.trim();
+
+  if (!state.whatsapp) { alert('Por favor informe seu WhatsApp.'); return; }
+  if (!state.email) { alert('Por favor informe seu e-mail.'); return; }
+
+  state.qIdx = 0;
+  state.respostas = [];
+
+  showScreen('quiz');
+  renderQ();
 }
 
-function iniciarQuiz(){
-  state.nome=document.getElementById('f-nome').value.trim()||'Empresário(a)';
-  state.empresa=document.getElementById('f-empresa').value.trim()||'Meu Negócio';
-  state.whatsapp=document.getElementById('f-whatsapp').value.trim();
-  state.email=document.getElementById('f-email').value.trim();
-  if(!state.whatsapp){alert('Por favor informe seu WhatsApp.');return;}
-  if(!state.email){alert('Por favor informe seu e-mail.');return;}
-  if(!state.seg){alert('Por favor selecione seu segmento.');return;}
-  state.qIdx=0; state.respostas={};
-  showScreen('quiz'); renderQ();
-}
+// ══════════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════════
+function renderQ() {
+  var total = QUESTOES.length;
+  var idx = state.qIdx;
+  var q = QUESTOES[idx];
+  var pilar = PILARES[q.pilar];
+  var pct = Math.round((idx / total) * 100);
 
-function renderQ(){
-  var total=PERGUNTAS.length;
-  var pct=Math.round((state.qIdx/total)*100);
-  document.getElementById('prog-text').textContent='Pergunta '+(state.qIdx+1)+' de '+total;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
+  // Update progress
+  document.getElementById('prog-label').textContent = 'Pergunta ' + (idx + 1) + ' de ' + total;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('header-badge').textContent = pilar.key + ' — ' + pilar.nome;
 
-  // Update pilar chips
-  var pAtual=PERGUNTAS[state.qIdx].pilar;
-  for(var i=0;i<4;i++){
-    var chip=document.getElementById('pc-'+i);
-    chip.classList.remove('done','active');
-    if(i<pAtual) chip.classList.add('done');
-    else if(i===pAtual) chip.classList.add('active');
+  // Update pilar segments
+  for (var i = 0; i < 5; i++) {
+    var seg = document.getElementById('seg-' + i);
+    seg.className = 'pilar-segment';
+    if (i < q.pilar) seg.classList.add('done');
+    else if (i === q.pilar) seg.classList.add('active');
   }
 
-  var p=PERGUNTAS[state.qIdx];
-  var pi=PILARES_INFO[p.pilar];
-  var optsHTML='';
-  p.opts.forEach(function(o,i){
-    optsHTML+='<div class="option" onclick="pickOpt('+i+','+o.p+')" id="opt-'+i+'">'+
-      '<div class="opt-letter">'+o.l+'</div>'+
-      '<div class="opt-text">'+o.t+'</div>'+
+  // Navigation buttons
+  document.getElementById('btn-prev').style.display = idx > 0 ? 'inline-flex' : 'none';
+  var btnNext = document.getElementById('btn-next');
+  btnNext.textContent = idx === total - 1 ? 'Ver Resultado →' : 'Próxima →';
+  btnNext.disabled = state.respostas[idx] === undefined;
+
+  // Build question card
+  var qNum = ((idx % 4) + 1);
+  var scaleHTML = '';
+  for (var v = 1; v <= 5; v++) {
+    var selected = state.respostas[idx] === v ? 'selected' : '';
+    scaleHTML += '<button class="scale-btn ' + selected + '" onclick="selectVal(' + v + ')" data-val="' + v + '">' +
+      '<div class="scale-num">' + v + '</div>' +
+      '<div class="scale-word">' + ESCALA[v - 1] + '</div>' +
+    '</button>';
+  }
+
+  var feedbackTxt = state.respostas[idx] ? ESCALA[state.respostas[idx] - 1] : '';
+  var feedbackClass = state.respostas[idx] ? 'visible' : '';
+
+  var badgeBg = 'rgba(15,76,92,.08)';
+  var badgeColor = pilar.cor;
+
+  document.getElementById('q-card').innerHTML =
+    '<div class="pilar-badge" style="background:' + badgeBg + ';color:' + badgeColor + '">' +
+      pilar.icon + ' Pilar ' + pilar.key + ' — ' + pilar.nome +
+    '</div>' +
+    '<div class="q-num">Pergunta ' + qNum + ' de 4</div>' +
+    '<div class="q-text">' + q.texto + '</div>' +
+    '<div class="scale-wrap">' +
+      '<div class="scale-labels">' +
+        '<span>1 — Nunca</span>' +
+        '<span>5 — Sempre</span>' +
+      '</div>' +
+      '<div class="scale-options">' + scaleHTML + '</div>' +
+      '<div class="scale-feedback ' + feedbackClass + '" id="scale-feedback">' +
+        (state.respostas[idx] ? 'Você respondeu: <strong>' + feedbackTxt + '</strong>' : '') +
+      '</div>' +
     '</div>';
+}
+
+function selectVal(v) {
+  state.respostas[state.qIdx] = v;
+
+  // Update buttons
+  document.querySelectorAll('.scale-btn').forEach(function(btn) {
+    btn.classList.toggle('selected', parseInt(btn.dataset.val) === v);
   });
 
-  document.getElementById('q-area').innerHTML=
-    '<div class="card" style="animation:fadeUp .4s ease both">'+
-      '<div class="pilar-header" style="background:linear-gradient(135deg,'+pi.cor+'18,'+pi.cor+'08);border:1px solid '+pi.cor+'30">'+
-        '<span class="pilar-icon">'+pi.icon+'</span>'+
-        '<div>'+
-          '<div class="pilar-label" style="color:'+pi.cor+'">'+pi.nome+'</div>'+
-          '<div style="font-size:12px;color:var(--muted)">'+pi.desc+'</div>'+
-        '</div>'+
-      '</div>'+
-      '<h2 style="margin-bottom:20px">'+p.q+'</h2>'+
-      '<div class="options">'+optsHTML+'</div>'+
-      '<div class="nav">'+
-        (state.qIdx>0?'<button class="btn btn-ghost" onclick="prevQ()">← Anterior</button>':'')+
-        '<button class="btn btn-primary" id="btn-next" disabled onclick="nextQ()">'+
-          (state.qIdx===total-1?'Gerar Diagnóstico 🎯':'Próxima →')+
-        '</button>'+
-      '</div>'+
-    '</div>';
+  // Show feedback
+  var fb = document.getElementById('scale-feedback');
+  fb.innerHTML = 'Você respondeu: <strong>' + ESCALA[v - 1] + '</strong>';
+  fb.classList.add('visible');
 
-  if(state.respostas[state.qIdx]!==undefined){
-    var ri=state.respostas[state.qIdx].idx;
-    document.getElementById('opt-'+ri).classList.add('selected');
-    document.getElementById('btn-next').disabled=false;
+  // Enable next
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQ() {
+  if (state.respostas[state.qIdx] === undefined) return;
+  if (state.qIdx < QUESTOES.length - 1) {
+    state.qIdx++;
+    renderQ();
+  } else {
+    gerarResultado();
   }
 }
 
-function pickOpt(idx,pts){
-  state.respostas[state.qIdx]={idx:idx,pts:pts,pilar:PERGUNTAS[state.qIdx].pilar};
-  document.querySelectorAll('.option').forEach(function(o,i){
-    o.classList.toggle('selected',i===idx);
+function prevQ() {
+  if (state.qIdx > 0) {
+    state.qIdx--;
+    renderQ();
+  }
+}
+
+// ══════════════════════════════════════════
+// CALCULAR RESULTADO
+// ══════════════════════════════════════════
+function calcularScores() {
+  var pilarScores = [0, 0, 0, 0, 0];
+  state.respostas.forEach(function(val, idx) {
+    var pilarIdx = QUESTOES[idx].pilar;
+    pilarScores[pilarIdx] += val;
   });
-  document.getElementById('btn-next').disabled=false;
+  var total = pilarScores.reduce(function(a, b) { return a + b; }, 0);
+  return { pilarScores: pilarScores, total: total };
 }
 
-function nextQ(){
-  if(state.qIdx<PERGUNTAS.length-1){state.qIdx++;renderQ();}
-  else gerarDiagnostico();
+function getClassificacao(score) {
+  return CLASSIFICACOES.find(function(c) { return score >= c.min && score <= c.max; }) || CLASSIFICACOES[0];
 }
-function prevQ(){if(state.qIdx>0){state.qIdx--;renderQ();}}
 
-function gerarDiagnostico(){
+function gerarResultado() {
   showScreen('loading');
-  var msgs=['Calculando seu score...','Identificando seu perfil de maturidade...','Mapeando GAPs e oportunidades...','Gerando seu plano de ação personalizado...'];
-  var m=0;
-  var iv=setInterval(function(){
-    if(++m<msgs.length) document.getElementById('loading-text').textContent=msgs[m];
-    else{clearInterval(iv); buildResult();}
-  },700);
-}
 
-function calcScores(){
-  var totalPts=0;
-  var pilarPts=[0,0,0,0];
-  var pilarCount=[0,0,0,0];
-  Object.values(state.respostas).forEach(function(r){
-    totalPts+=r.pts;
-    pilarPts[r.pilar]+=r.pts;
-    pilarCount[r.pilar]++;
-  });
-  // Score 0-100: max 5 pts x 20 questions = 100
-  var score100=totalPts;
-  // Each pilar: max 25 pts -> scale to 0-100
-  var pilarScores=pilarPts.map(function(p,i){
-    return Math.round((p/Math.max(pilarCount[i]*5,1))*100);
-  });
-  return {score:score100, pilarScores:pilarScores, pilarPts:pilarPts};
-}
-
-function getPerfil(score){
-  return PERFIS.find(function(p){return score>=p.min&&score<=p.max;})||PERFIS[3];
-}
-
-function buildResult(){
-  var calc=calcScores();
-  var score=calc.score;
-  var pilarScores=calc.pilarScores;
-  state._score=score;
-
-  var perfil=getPerfil(score);
-  var potencial=Math.min(100,score+Math.floor(Math.random()*8)+12);
-  var gap=potencial-score;
-  var evolucao=Math.round((gap/Math.max(score,1))*100);
-
-  // Top 3 oportunidades (pilares mais fracos)
-  var sorted=PILARES_INFO.map(function(p,i){return{p:p,score:pilarScores[i],i:i};})
-    .sort(function(a,b){return a.score-b.score;});
-  var top3=sorted.slice(0,3);
-
-  // Save lead
-  salvarLead({
-    nome:state.nome, empresa:state.empresa,
-    whatsapp:state.whatsapp, email:state.email,
-    segmento:state.seg, score:score,
-    perfil:perfil.nome, pilarScores:pilarScores,
-    potencial:potencial
-  });
-
-  var wrap=document.getElementById('report-wrap');
-  wrap.innerHTML=buildReportHTML(score,perfil,pilarScores,potencial,gap,evolucao,top3);
-  showScreen('result');
-
-  // Animate score ring
-  setTimeout(function(){
-    var fill=document.getElementById('ring-fg');
-    if(fill) fill.style.strokeDashoffset=345-(345*(score/100));
-    var c=0;var iv=setInterval(function(){
-      c=Math.min(c+2,score);
-      var el=document.getElementById('score-anim');
-      if(el)el.textContent=c;
-      if(c>=score)clearInterval(iv);
-    },18);
-    // Build radar chart
-    buildRadarChart(pilarScores);
-    // Animate bars
-    setTimeout(function(){
-      document.querySelectorAll('.rbar-fill').forEach(function(el){el.style.width=el.dataset.w+'%';});
-      document.querySelectorAll('.pot-bar-fill').forEach(function(el){el.style.width=el.dataset.w+'%';});
-    },300);
-  },150);
-}
-
-function buildReportHTML(score,perfil,pilarScores,potencial,gap,evolucao,top3){
-  var logo=document.querySelector('img[alt="LUME"]').src;
-  var segNome=BEAUTY_SEGS[state.seg]||state.seg;
-  var today=new Date().toLocaleDateString('pt-BR');
-  var pctPerf=Math.min(99,score+5);
-
-  // Pilar bars HTML
-  var pilarBarsHTML=PILARES_INFO.map(function(pi,i){
-    var sc=pilarScores[i];
-    return '<div class="radar-item">'+
-      '<div class="rbar-head"><span>'+pi.icon+' '+pi.nome+'</span><span class="rbar-score" style="color:'+pi.cor+'">'+sc+'/100</span></div>'+
-      '<div class="rbar-bg"><div class="rbar-fill" style="width:0%;background:'+pi.cor+';transition:width 1.4s '+(i*.1)+'s cubic-bezier(.4,0,.2,1)" data-w="'+sc+'"></div></div>'+
-    '</div>';
-  }).join('');
-
-  // Top3 oportunidades
-  var oppHTML=top3.map(function(o,i){
-    return '<div class="opp-item">'+
-      '<div class="opp-rank">'+(i+1)+'</div>'+
-      '<div><div class="opp-text">'+o.p.icon+' '+o.p.nome+'</div>'+
-      '<div class="opp-sub">Score: '+o.score+'/100 - maior potencial de melhoria</div></div>'+
-    '</div>';
-  }).join('');
-
-  // 30/60/90 plan
-  var plans=[
-    {cor:'#6c63ff',head:'30 dias',title:'Diagnóstico & Base',items:['Organizar agenda com sistema digital','Definir precificação com base em custo real','Cadastrar base de clientes no CRM','Criar catálogo de serviços e SmallBio']},
-    {cor:'#f7971e',head:'60 dias',title:'Processos & Automação',items:['Ativar fluxos automáticos de pós-atendimento','Implantar pesquisa de satisfação (NPS)','Estruturar controle financeiro completo','Ativar reativação automática de inativos']},
-    {cor:'#43e97b',head:'90 dias',title:'Crescimento & Escala',items:['Plano de captação com tráfego local','Otimizar Google Meu Negócio','Revisar KPIs e score LUME','Plano de expansão estruturado']},
+  var msgs = [
+    'Processando suas respostas...',
+    'Calculando seu nível de maturidade...',
+    'Identificando seus pontos de evolução...',
+    'Gerando seu diagnóstico OPERA™...'
   ];
-  var planHTML=plans.map(function(pl){
-    return '<div class="plan-col">'+
-      '<div class="plan-head" style="color:'+pl.cor+'">'+pl.head+'</div>'+
-      '<div class="plan-title">'+pl.title+'</div>'+
-      pl.items.map(function(it){return '<div class="plan-item"><div class="plan-dot" style="background:'+pl.cor+'"></div>'+it+'</div>';}).join('')+
-    '</div>';
-  }).join('');
-
-  // Pilar scores for consultor table
-  var consultorRows=PILARES_INFO.map(function(pi,i){
-    var sc=pilarScores[i];
-    var cor=sc>=70?'#43e97b':sc>=40?'#f7971e':'#ff6584';
-    var nivel=sc>=70?'Alto':sc>=40?'Médio':'Baixo';
-    return '<tr><td>'+pi.icon+' '+pi.nome+'</td><td><span class="consul-score-pill" style="background:'+cor+'22;color:'+cor+'">'+sc+'/100</span></td><td style="color:'+cor+'">'+nivel+'</td><td style="color:var(--muted)">'+pi.desc+'</td></tr>';
-  }).join('');
-
-  return (
-    '<div class="report-cover" style="animation:fadeUp .5s ease both">'+
-      '<div class="cover-logo-bar">'+
-        '<img src="'+logo+'" alt="LUME" style="width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(108,99,255,.6))">'+
-        '<div class="cover-brand">L·U·M·E</div>'+
-      '</div>'+
-      '<div class="cover-divider"></div>'+
-      '<div class="cover-title">Diagnóstico de Maturidade Empresarial</div>'+
-      '<div class="cover-subtitle">Método LUME v3 - '+segNome+'</div>'+
-      '<div class="cover-meta">'+
-        '<div class="cover-field"><div class="cover-field-lbl">Responsável</div><div class="cover-field-val">'+state.nome+'</div></div>'+
-        '<div class="cover-field"><div class="cover-field-lbl">Negócio</div><div class="cover-field-val">'+state.empresa+'</div></div>'+
-        '<div class="cover-field"><div class="cover-field-lbl">Segmento</div><div class="cover-field-val">'+segNome+'</div></div>'+
-        '<div class="cover-field"><div class="cover-field-lbl">Data</div><div class="cover-field-val">'+today+'</div></div>'+
-      '</div>'+
-      '<div class="cover-seal">Diagnóstico Completo LUME v3</div>'+
-    '</div>'+
-
-    // PG1 - RESUMO EXECUTIVO
-    '<div class="report-page" style="animation:fadeUp .5s .1s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">01</div><div><div class="page-title">Resumo Executivo</div><div class="page-sub">Score de Maturidade LUME</div></div></div>'+
-      '<div class="score-row">'+
-        '<div class="score-ring-wrap">'+
-          '<svg viewBox="0 0 110 110" width="130" height="130"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6c63ff"/><stop offset="100%" style="stop-color:#ff6584"/></linearGradient></defs>'+
-          '<circle class="ring-bg" cx="55" cy="55" r="46"/>'+
-          '<circle class="ring-fg" id="ring-fg" cx="55" cy="55" r="46" stroke-dasharray="345" stroke-dashoffset="345" stroke="url(#rg)"/></svg>'+
-          '<div class="score-inner"><div class="score-big" id="score-anim" style="color:'+perfil.cor+'">0</div><div class="score-max">/100</div></div>'+
-        '</div>'+
-        '<div class="score-info">'+
-          '<h3>'+state.empresa+'</h3>'+
-          '<p>Score de <strong>'+score+'/100</strong> - <strong style="color:'+perfil.cor+'">'+perfil.emoji+' '+perfil.nome+'</strong></p>'+
-          '<p style="margin-top:8px;font-size:13px;color:var(--muted)">'+perfil.desc+'</p>'+
-          '<div class="score-badge" style="background:'+perfil.cor+'18;border-color:'+perfil.cor+'40;color:'+perfil.cor+';margin-top:14px">'+perfil.emoji+' '+perfil.sub+'</div><br>'+
-          '<div style="font-size:13px;color:var(--muted);margin-top:10px">Acima de '+pctPerf+'% dos negócios do seu segmento</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-
-    // PG2 - RADAR LUME
-    '<div class="report-page" style="animation:fadeUp .5s .15s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">02</div><div><div class="page-title">Radar LUME</div><div class="page-sub">Análise dos 4 Pilares de Maturidade</div></div></div>'+
-      '<div class="radar-wrap">'+
-        '<div style="display:flex;justify-content:center"><canvas id="radar-chart" width="260" height="260"></canvas></div>'+
-        '<div class="radar-bars">'+pilarBarsHTML+'</div>'+
-      '</div>'+
-    '</div>'+
-
-    // PG3 - PERFIL
-    '<div class="report-page" style="animation:fadeUp .5s .2s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">03</div><div><div class="page-title">Seu Perfil de Maturidade</div><div class="page-sub">Metodologia LUME - 8 Perfis</div></div></div>'+
-      '<div class="perfil-card">'+
-        '<div class="perfil-emoji">'+perfil.emoji+'</div>'+
-        '<div class="perfil-nome">'+perfil.nome+'</div>'+
-        '<div class="perfil-sub">'+perfil.sub+'</div>'+
-        '<div class="perfil-tags">'+perfil.tags.map(function(t){return '<span class="perfil-tag">'+t+'</span>';}).join('')+'</div>'+
-        '<div class="perfil-risco">Risco atual: '+perfil.risco+'</div>'+
-      '</div>'+
-    '</div>'+
-
-    // PG4 - GAP
-    '<div class="report-page" style="animation:fadeUp .5s .25s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">04</div><div><div class="page-title">GAP de Crescimento</div><div class="page-sub">Distância entre seu estado atual e o potencial</div></div></div>'+
-      '<div class="gap-visual">'+
-        '<div class="gap-bar gap-current"><div class="gap-val" id="gap-anim">'+score+'</div><div class="gap-lbl">Você agora</div></div>'+
-        '<div class="gap-arrow">→</div>'+
-        '<div class="gap-bar gap-target"><div class="gap-val" style="color:#43e97b">'+potencial+'</div><div class="gap-lbl">Potencial</div></div>'+
-      '</div>'+
-      '<div class="gap-delta">GAP de '+gap+' pontos - Evolução possível: +'+evolucao+'%</div>'+
-      '<div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">Top 3 Oportunidades</div>'+
-      '<div class="opp-list">'+oppHTML+'</div>'+
-    '</div>'+
-
-    // PG5 - PLANO 90 DIAS
-    '<div class="report-page" style="animation:fadeUp .5s .3s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">05</div><div><div class="page-title">Plano de Ação 90 Dias</div><div class="page-sub">Roteiro estratégico personalizado</div></div></div>'+
-      '<div class="plan-cols">'+planHTML+'</div>'+
-    '</div>'+
-
-    // PG6 - RELATÓRIO CONSULTOR
-    '<div class="report-page" style="animation:fadeUp .5s .35s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="page-header"><div class="page-num">06</div><div><div class="page-title">Diagnóstico por Pilar</div><div class="page-sub">Análise detalhada para o consultor</div></div></div>'+
-      '<table class="consul-table">'+
-        '<thead><tr><th>Pilar</th><th>Score</th><th>Nível</th><th>Descrição</th></tr></thead>'+
-        '<tbody>'+consultorRows+'</tbody>'+
-      '</table>'+
-      '<div style="margin-top:20px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px">'+
-        '<div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Diagnóstico Executivo</div>'+
-        '<div style="font-size:14px;color:var(--text2);line-height:1.75">'+
-          '<strong>'+state.empresa+'</strong> apresenta perfil <strong style="color:'+perfil.cor+'">'+perfil.nome+'</strong> com score total de <strong>'+score+'/100</strong>. '+
-          'Os principais vetores de crescimento identificados são <strong>'+top3.map(function(o){return o.p.nome;}).join(', ')+'</strong>. '+
-          'Com a implementação das melhorias prioritárias, o potencial de evolução estimado é de <strong>+'+evolucao+'%</strong> nos próximos 90 dias.'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-
-    // PG7 - CTA
-    '<div class="report-page" style="animation:fadeUp .5s .4s ease both;opacity:0;animation-fill-mode:both">'+
-      '<div class="cta-box">'+
-        '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6c63ff;margin-bottom:14px">Próximo Passo</div>'+
-        '<h3>Seu diagnóstico revelou o caminho.<br>A <span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Metodologia LUME</span> te leva até lá.</h3>'+
-        '<p>O checklist de implementação, o acompanhamento estratégico e as ferramentas integradas fazem parte da <strong>Metodologia LUME</strong> - aplicada pelo time <strong>Web Genix</strong> no seu negócio.</p>'+
-        '<div class="cta-bullets">'+
-          '<div class="cta-bullet">Plano de ação em 90 dias</div>'+
-          '<div class="cta-bullet">Checklist de implementação</div>'+
-          '<div class="cta-bullet">Painel LUME de acompanhamento</div>'+
-          '<div class="cta-bullet">Ferramentas integradas</div>'+
-        '</div>'+
-        '<button class="btn-cta" onclick="agendar()">Quero aplicar a Metodologia LUME</button>'+
-        '<p style="font-size:12px;color:var(--muted);margin-top:12px">Fale agora com o time <strong>Web Genix</strong> pelo WhatsApp</p>'+
-        '<button class="btn-restart" onclick="restart()">Refazer diagnóstico</button>'+
-      '</div>'+
-    '</div>'
-  );
-}
-
-function buildRadarChart(pilarScores){
-  var ctx=document.getElementById('radar-chart');
-  if(!ctx) return;
-  new Chart(ctx,{
-    type:'radar',
-    data:{
-      labels:PILARES_INFO.map(function(p){return p.nome;}),
-      datasets:[{
-        label:'Seu Score',
-        data:pilarScores,
-        backgroundColor:'rgba(108,99,255,.2)',
-        borderColor:'rgba(108,99,255,.8)',
-        borderWidth:2,
-        pointBackgroundColor:PILARES_INFO.map(function(p){return p.cor;}),
-        pointRadius:5,
-      }]
-    },
-    options:{
-      responsive:false,
-      scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(255,255,255,.06)'},pointLabels:{color:'#a0a8d8',font:{family:'DM Sans',size:12}}}},
-      plugins:{legend:{display:false}},
-      elements:{line:{tension:.3}}
+  var m = 0;
+  var iv = setInterval(function() {
+    m++;
+    if (m < msgs.length) {
+      document.getElementById('loading-text').textContent = msgs[m];
+    } else {
+      clearInterval(iv);
+      buildResult();
     }
+  }, 700);
+}
+
+// ══════════════════════════════════════════
+// BUILD RESULT
+// ══════════════════════════════════════════
+function buildResult() {
+  var calc = calcularScores();
+  var pilarScores = calc.pilarScores;
+  var total = calc.total;
+  var classif = getClassificacao(total);
+
+  // Sort pilares by score
+  var pilarData = PILARES.map(function(p, i) {
+    return { pilar: p, score: pilarScores[i], idx: i };
   });
+  var sorted = pilarData.slice().sort(function(a, b) { return b.score - a.score; });
+  var top3 = sorted.slice(0, 3);
+  var weak3 = sorted.slice().reverse().slice(0, 3);
+
+  // Header
+  document.getElementById('res-nome').textContent = state.nome;
+  document.getElementById('res-empresa').textContent = state.empresa;
+
+  // Animate score
+  animateNum('res-score', total, 1200);
+
+  // Classification badge
+  document.getElementById('res-class-text').textContent = classif.emoji + ' ' + classif.nome;
+
+  // Radar
+  buildRadar(pilarScores);
+
+  // Pillar bars
+  buildPillarBars(pilarScores);
+
+  // Diagnosis text
+  var diagKey = total <= 39 ? 'reativo' : total <= 59 ? 'organizacao' : total <= 79 ? 'estruturado' : 'evolutivo';
+  document.getElementById('diagnosis-text').innerHTML = DIAGNOSTICOS[diagKey](
+    state.nome,
+    top3.map(function(d) { return d.pilar; }),
+    weak3.map(function(d) { return d.pilar; })
+  );
+
+  // Strengths
+  buildHighlightList('strengths-list', top3, true);
+
+  // Gaps
+  buildHighlightList('gaps-list', weak3, false);
+
+  // Recommendations
+  buildRecommendations(weak3);
+
+  // Checklist 90 dias
+  buildChecklist();
+
+  // Livros por pilar
+  buildBooks();
+
+  // Salvar lead — Google Sheets + LUME Panel localStorage
+  salvarLead();
+
+  showScreen('result');
 }
 
-function agendar(){
-  var SEU_WPP='5535987096476';
-  var msg=encodeURIComponent('Olá! Fiz o diagnóstico LUME e quero saber mais sobre a Metodologia.\n\nNegócio: '+state.empresa+'\nScore: '+state._score+'/100\nPerfil: '+getPerfil(state._score).nome);
-  window.open('https://wa.me/'+SEU_WPP+'?text='+msg,'_blank');
-}
-
-function restart(){
-  state={nome:'',empresa:'',whatsapp:'',email:'',seg:null,qIdx:0,respostas:{},_score:0};
-  document.querySelectorAll('#seg-grid .seg-btn').forEach(function(b){b.classList.remove('active');});
-  ['f-nome','f-empresa','f-whatsapp','f-email'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  showScreen('intro');
-}
-
-function salvarLead(d){
-  // Google Sheets
-  var SHEETS_URL='https://script.google.com/macros/s/AKfycbyHWaN1ds2ekbq4lgXAbZ67qT9AygbtPanlgSV5lvF4JfKN-Yr5hH9FX3zIH_1xz32eUQ/exec';
-  if(SHEETS_URL){
-    fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(function(e){console.warn('Sheets:',e);});
+function animateNum(id, target, duration) {
+  var el = document.getElementById(id);
+  var start = 0;
+  var startTime = null;
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    var progress = Math.min((timestamp - startTime) / duration, 1);
+    el.textContent = Math.round(start + (target - start) * easeOut(progress));
+    if (progress < 1) requestAnimationFrame(step);
   }
-  // localStorage para LUME Panel
-  try{
-    var leads=JSON.parse(localStorage.getItem('lume_leads')||'[]');
-    var exists=leads.findIndex(function(l){return l.email===d.email||l.whatsapp===d.whatsapp;});
-    var lead={
-      id:exists>=0?leads[exists].id:'lead_'+Date.now(),
-      nome:d.nome, empresa:d.empresa,
-      email:d.email, whatsapp:d.whatsapp,
-      nicho:d.segmento, score:d.score,
-      perfil:d.perfil, potencial:d.potencial,
-      eixos:{'Clareza':d.pilarScores[0],'Estrutura':d.pilarScores[1],'Experiência':d.pilarScores[2],'Evolução':d.pilarScores[3]},
-      date:new Date().toISOString(),
-      status:'pending', activationToken:null
+  requestAnimationFrame(step);
+}
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+function buildPillarBars(pilarScores) {
+  var container = document.getElementById('pillar-bars');
+  var html = '';
+  PILARES.forEach(function(p, i) {
+    var score = pilarScores[i];
+    var pct = Math.round((score / 20) * 100);
+    html += '<div class="pillar-bar-item">' +
+      '<div class="pillar-bar-header">' +
+        '<div class="pillar-bar-label">' +
+          '<div class="pillar-bar-icon" style="background:' + p.cor + '">' + p.key + '</div>' +
+          p.nome +
+        '</div>' +
+        '<div class="pillar-bar-score">' + score + '/20</div>' +
+      '</div>' +
+      '<div class="pillar-bar-bg">' +
+        '<div class="pillar-bar-fill" style="width:0%;background:' + p.cor + '" data-w="' + pct + '"></div>' +
+      '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+  setTimeout(function() {
+    document.querySelectorAll('.pillar-bar-fill').forEach(function(el) {
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 200);
+}
+
+function buildHighlightList(containerId, items, isStrengths) {
+  var container = document.getElementById(containerId);
+  var html = '';
+  items.forEach(function(d, i) {
+    var p = d.pilar;
+    var score = d.score;
+    var pct = Math.round((score / 20) * 100);
+    var pillColor = isStrengths ? '#2E8B57' : '#C0392B';
+    var pillBg = isStrengths ? 'rgba(46,139,87,.1)' : 'rgba(192,57,43,.1)';
+    var pillLabel = isStrengths ? pct + '%' : pct + '%';
+    html += '<div class="highlight-item">' +
+      '<div class="highlight-rank" style="background:' + p.cor + '">' + (i + 1) + '</div>' +
+      '<div class="highlight-info">' +
+        '<div class="highlight-name">' + p.icon + ' ' + p.nome + '</div>' +
+        '<div class="highlight-score">' + score + ' de 20 pontos</div>' +
+      '</div>' +
+      '<div class="highlight-pill" style="background:' + pillBg + ';color:' + pillColor + '">' + pillLabel + '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function buildRecommendations(weak3) {
+  var container = document.getElementById('recommendations');
+  var html = '';
+  // Top 2 weakest get recommendations
+  var recs = weak3.slice(0, 2);
+  recs.forEach(function(d) {
+    var p = d.pilar;
+    var rec = RECOMENDACOES[p.key];
+    html += '<div class="rec-item">' +
+      '<div class="rec-icon">' + p.icon + '</div>' +
+      '<div class="rec-body">' +
+        '<div class="rec-title">' + rec.titulo + '</div>' +
+        '<div class="rec-desc">' + rec.desc + '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// RADAR SVG (puro, sem biblioteca)
+// ══════════════════════════════════════════
+function buildRadar(pilarScores) {
+  var svg = document.getElementById('radar-svg');
+  var cx = 150, cy = 150, r = 100;
+  var n = 5;
+  var labels = PILARES.map(function(p) { return p.key; });
+  var colors = PILARES.map(function(p) { return p.cor; });
+  var maxScore = 20;
+
+  function angle(i) { return (Math.PI * 2 * i / n) - Math.PI / 2; }
+  function pt(i, ratio) {
+    return {
+      x: cx + Math.cos(angle(i)) * r * ratio,
+      y: cy + Math.sin(angle(i)) * r * ratio
     };
-    if(exists>=0){leads[exists]=lead;}else{leads.push(lead);}
-    localStorage.setItem('lume_leads',JSON.stringify(leads));
-  }catch(e){console.warn('localStorage:',e);}
+  }
+
+  var html = '';
+
+  // Background rings (20%, 40%, 60%, 80%, 100%)
+  [.2,.4,.6,.8,1].forEach(function(f) {
+    var pts = [];
+    for (var i = 0; i < n; i++) { var p = pt(i, f); pts.push(p.x + ',' + p.y); }
+    html += '<polygon points="' + pts.join(' ') + '" fill="none" stroke="#E2E8EB" stroke-width="1"/>';
+  });
+
+  // Axis lines
+  for (var i = 0; i < n; i++) {
+    var end = pt(i, 1);
+    html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + end.x + '" y2="' + end.y + '" stroke="#E2E8EB" stroke-width="1"/>';
+  }
+
+  // Data polygon
+  var dataPts = [];
+  for (var i = 0; i < n; i++) {
+    var ratio = pilarScores[i] / maxScore;
+    var p = pt(i, ratio);
+    dataPts.push(p.x + ',' + p.y);
+  }
+  html += '<polygon points="' + dataPts.join(' ') + '" fill="rgba(15,76,92,.12)" stroke="#0F4C5C" stroke-width="2"/>';
+
+  // Data dots
+  for (var i = 0; i < n; i++) {
+    var ratio = pilarScores[i] / maxScore;
+    var p = pt(i, ratio);
+    html += '<circle cx="' + p.x + '" cy="' + p.y + '" r="5" fill="' + colors[i] + '" stroke="#fff" stroke-width="2"/>';
+  }
+
+  // Labels
+  for (var i = 0; i < n; i++) {
+    var lp = pt(i, 1.22);
+    var score = pilarScores[i];
+    html += '<text x="' + lp.x + '" y="' + (lp.y - 4) + '" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="13" font-weight="700" fill="' + colors[i] + '">' + labels[i] + '</text>';
+    html += '<text x="' + lp.x + '" y="' + (lp.y + 10) + '" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="#6B7C85">' + score + '/20</text>';
+  }
+
+  // Center score ring hint
+  html += '<text x="' + cx + '" y="' + (cy + 4) + '" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="#B0B8BD">OPERA</text>';
+
+  svg.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// CTA
+// ══════════════════════════════════════════
+function ctaWhatsApp() {
+  var calc = calcularScores();
+  var classif = getClassificacao(calc.total);
+  var msg = 'Ola! Acabei de fazer o Diagnostico OPERA e quero saber mais sobre o LUME START.\n\n' +
+    'Nome: ' + state.nome + '\n' +
+    'Empresa: ' + state.empresa + '\n' +
+    'Pontuacao: ' + calc.total + '/100\n' +
+    'Nivel: ' + classif.nome;
+  window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function reiniciar() {
+  state = { nome:'', empresa:'', whatsapp:'', email:'', qIdx:0, respostas:[] };
+  checkState = {};
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-empresa').value = '';
+  document.getElementById('f-whatsapp').value = '';
+  document.getElementById('f-email').value = '';
+  document.getElementById('header-badge').textContent = 'Diagnóstico Empresarial';
+  showScreen('intro');
 }
 </script>
 </body>
